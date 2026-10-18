@@ -807,11 +807,12 @@ export const MISSIONS: MissionDef[] = [
     title: 'A guerra das narrativas',
     tagline: 'Um vídeo de 47 segundos pode valer mais que dez comícios.',
     intro: [
-      'Às 19h12, o adversário publica um vídeo de campanha nas redes: edição profissional, trilha dramática e a legenda "o que ele não quer que você lembre".',
-      'Em três horas, o vídeo tem 11 milhões de visualizações e uma pergunta que circula em toda redação do país.',
-      'Sua equipe tem até o amanhã para decidir: responder agora, investigar, ou deixar passar.',
+      'Às 19h12, um vídeo sobe para as redes: é uma produção profissional do adversário, com trilha dramática e a legenda "o que ele não quer que você lembre".',
+      'O conteúdo é direto: o vídeo mostra documentos que, segundo a legenda, provam que seu pai — Júlio Barreto, o ex-presidente condenado — movimentou dinheiro em paraísos fiscais.',
+      'Em três horas, o vídeo tem 11 milhões de visualizações. Todos os telejornais do país estão com o tema na pauta.',
+      'Sua equipe está reunida no comitê e espera sua decisão: o que você faz agora?',
     ],
-    context: 'O comitê trabalha em modo noturno. Café, projeção e um televisor com o som no mínimo.',
+    context: 'É noite. O comitê está reunido — café, projeção e um televisor com o som no mínimo.',
     characters: ['vera', 'iris', 'bento', 'aurelio', 'zorana', 'dante'],
     objectives: [
       { id: 'o1', text: 'Escolha a reação imediata ao vídeo', completeWhen: [{ t: 'flag', flag: 'videoReaction' }] },
@@ -830,7 +831,7 @@ export const MISSIONS: MissionDef[] = [
         t: 'dialogue',
         speaker: 'vera',
         text:
-          'O vídeo foi feito por profissionais: produção cara, distribuição coordenada, divulgação paga. Não é um vídeo que surgiu sozinho — foi uma operação. Mas, para quem assiste, parece verdade.',
+          'Assisti três vezes. O vídeo é uma montagem: pega documentos reais do processo do seu pai, corta do jeito que convém e coloca uma legenda que insinua sem provar. Produção cara, distribuição coordenada — não é espontaneo, é uma operação de marketing político. Mas, para quem assiste sem contexto, parece verdade.',
         effects: [{ t: 'flag', flag: 'videoCrisis', value: true }],
         next: 'zorana',
       },
@@ -838,26 +839,26 @@ export const MISSIONS: MissionDef[] = [
         t: 'dialogue',
         speaker: 'zorana',
         text:
-          'Thomas Walker, presidente da Federação de Karsavia, aparece por vídeo-chamada. "Fábio, eu já vi vídeo assim antes. Não responda com raiva — responda com fato. E se precisar de apoio diplomático, eu conheço pessoas que podem ajudar."',
+          'Thomas Walker, presidente da Federação de Karsavia, liga por vídeo-chamada. "Fábio, eu já vi vídeo assim antes — na Karsavia e em outros lugares. Eles querem que você reagia com raiva, porque aí você parece culpado. Não caia nessa. Responda com fato, com calma. E se precisar de apoio internacional, eu conheço pessoas que podem ajudar."',
         next: 'dante',
       },
       dante: {
         t: 'dialogue',
         speaker: 'dante',
         text:
-          'Dante Valverde, do Grupo Valverde, manda uma mensagem: "O vídeo já está circulando em fundos de investimento. Se a sua campanha não controlar a narrativa em 48 horas, o mercado vai controlar por você."',
+          'Dante Valverde, do Grupo Valverde, manda uma mensagem curta: "Esse vídeo já está nos group de fundos de investimento. Investidor não quer saber se é verdade — quer saber se dá problema. Se você não controlar a narrativa em 48 horas, o mercado controla por você. E quando o mercado controla, a verba encolhe."',
         next: 'reacao',
       },
       reacao: {
         t: 'choice',
         speaker: 'bento',
         prompt:
-          'Rafael Sampaio, do MNR, resume a situação: "Ou vocês respondem ao vídeo agora, ou o vídeo vai perseguir vocês por uma semana."',
+          'Bento, do MNR, resume: "O vídeo está rodando há três horas. Ou a gente responde agora, ou ele define a narrativa por nós. O que fazemos?"',
         choices: [
           {
             id: 'esclarecer',
-            label: 'Responder agora com uma nota de esclarecimento',
-            description: 'Rápido e barato. Funciona melhor se sua reputação estiver sólida.',
+            label: 'Publicar nota de esclarecimento imediata',
+            description: 'Explica em poucas linhas que o vídeo é uma montagem fora de contexto.',
             requires: [{ t: 'attrGte', attr: 'reputation', value: 40 }],
             effects: [
               { t: 'attr', attr: 'influence', amount: 4 },
@@ -872,8 +873,8 @@ export const MISSIONS: MissionDef[] = [
           },
           {
             id: 'investigar',
-            label: 'Investigar quem fez o vídeo antes de responder',
-            description: 'Custa tempo e verba. Pode revelar quem pagou pela produção.',
+            label: 'Investigar quem produziu o vídeo antes de responder',
+            description: 'Gasta dois dias e verba, mas pode revelar quem pagou pela montagem.',
             cost: { funds: 8, days: 2 },
             requires: [{ t: 'attrGte', attr: 'influence', value: 25 }],
             effects: [
@@ -887,8 +888,8 @@ export const MISSIONS: MissionDef[] = [
           },
           {
             id: 'entrevista',
-            label: 'Dar entrevista ao vivo para explicar o vídeo',
-            description: 'Risco de pergunta difícil, mas aproxima você do eleitor.',
+            label: 'Dar entrevista ao vivo para se explicar',
+            description: 'Vai ao ar sem roteiro — risco de pergunta armadilha, mas mostra que não tem nada a esconder.',
             requires: [{ t: 'relationGte', who: 'iris', value: 15 }],
             effects: [
               { t: 'attr', attr: 'influence', amount: 6 },
@@ -903,8 +904,8 @@ export const MISSIONS: MissionDef[] = [
           },
           {
             id: 'ignorar',
-            label: 'Ignorar e seguir a agenda',
-            description: 'Você não responde; o vídeo continua circulando sozinho.',
+            label: 'Ignorar e seguir a agenda normal da campanha',
+            description: 'Não responde. O vídeo continua circulando sozinho.',
             effects: [
               { t: 'attr', attr: 'popularity', amount: -6 },
               { t: 'attr', attr: 'reputation', amount: -3 },
@@ -921,12 +922,12 @@ export const MISSIONS: MissionDef[] = [
         t: 'choice',
         speaker: 'iris',
         prompt:
-          'O vídeo diz que o dinheiro do seu pai estava em paraíso fiscal. Independentemente de ser verdade ou não, a pergunta é: o que você faz com essa acusação?',
+          'O vídeo afirma que seu pai movimentou dinheiro em paraísos fiscais. O conteúdo é falso — mas os documentos que ele usa são reais, só que fora de contexto. Como você responde à acusação?',
         choices: [
           {
             id: 'auditoria',
-            label: 'Publicar uma auditoria completa das suas contas',
-            description: 'Transparência total: caro, mas difícil de atacar depois.',
+            label: 'Publicar auditoria completa das suas contas',
+            description: 'Abre suas finanças para auditoria independente. Caro, mas depois disso é difícil te atacar de novo.',
             cost: { funds: 10 },
             effects: [
               { t: 'attr', attr: 'reputation', amount: 7 },
@@ -940,8 +941,8 @@ export const MISSIONS: MissionDef[] = [
           },
           {
             id: 'contra',
-            label: 'Revidar mostrando quem produziu o vídeo',
-            description: 'Coloque o holofote no adversário — e entre na guerra de bastidores com ele.',
+            label: 'Revidar: mostrar quem financiou o vídeo',
+            description: 'Coloca o adversário no centro da atenção — e assume o custo de uma guerra de bastidores.',
             effects: [
               { t: 'attr', attr: 'influence', amount: 5 },
               { t: 'relation', who: 'aurelio', amount: -12 },
@@ -955,8 +956,8 @@ export const MISSIONS: MissionDef[] = [
           },
           {
             id: 'advogado',
-            label: 'Responder com nota técnica dos advogados',
-            description: 'Linguagem formal, sem emoção, zero risco jurídico.',
+            label: 'Publicar nota técnica dos advogados',
+            description: 'Resposta formal e juridicamente segura — mas que ninguém lê até o fim.',
             effects: [
               { t: 'attr', attr: 'institutionalTrust', amount: 2 },
               { t: 'attr', attr: 'popularity', amount: -3 },
@@ -968,9 +969,9 @@ export const MISSIONS: MissionDef[] = [
           },
           {
             id: 'publicar_fonte',
-            label: 'Publicar o resultado da investigação sobre a origem do vídeo',
+            label: 'Publicar a investigação: quem pagou pelo vídeo',
             description:
-              'A equipe descobriu quem pagou pela produção. Publicar isso vira a notícia do dia — e torna você um alvo.',
+              'Sua equipe descobriu a fonte. Tornar isso público vira a manchete do dia — e coloca você como alvo do adversário.',
             requires: [{ t: 'flag', flag: 'videoSourceFound' }],
             cost: { funds: 6 },
             effects: [
@@ -986,9 +987,9 @@ export const MISSIONS: MissionDef[] = [
           },
           {
             id: 'resposta_paga',
-            label: 'Pagar uma campanha de resposta com a verba de Dante',
+            label: 'Contratar mídia paga com a verba de Dante',
             description:
-              'Use o dinheiro contratado com Dante Valverde para inundar a mídia com a sua versão até o vídeo perder força.',
+              'Usa o dinheiro combinado com Dante Valverde para inundar a mídia com a sua versão até o vídeo perder força.',
             requires: [
               {
                 t: 'any',

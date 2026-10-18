@@ -30,7 +30,9 @@ function afterM1M2(): CampaignState {
   s = concludeMission(s, 'm1').state;
 
   s = startMission(s, 'm2').state;
-  s = advanceNode(s, 'm2').state;
+  s = advanceNode(s, 'm2').state; // start → caetano
+  s = advanceNode(s, 'm2').state; // caetano → tiago
+  s = advanceNode(s, 'm2').state; // tiago → mesa
   s = chooseOption(s, 'm2', 'negociar').state;
   s = chooseOption(s, 'm2', 'confirmar').state;
   return concludeMission(s, 'm2').state;
@@ -40,7 +42,8 @@ function afterM1M2(): CampaignState {
 function playM3(base: CampaignState, path: string[]): CampaignState {
   let s = startMission(base, 'm3').state;
   s = advanceNode(s, 'm3').state; // start → relator
-  s = advanceNode(s, 'm3').state; // relator → linha
+  s = advanceNode(s, 'm3').state; // relator → camurca
+  s = advanceNode(s, 'm3').state; // camurca → linha
   for (const id of path) {
     const out = chooseOption(s, 'm3', id);
     expect(out.error, `escolha "${id}" não deveria falhar`).toBeUndefined();
@@ -54,7 +57,9 @@ function afterM4(): CampaignState {
   let s = playM3(afterM1M2(), ['juridica', 'direito', 'incidentes', 'aguardar']);
   s = concludeMission(s, 'm3').state;
   s = startMission(s, 'm4').state;
-  s = advanceNode(s, 'm4').state;
+  s = advanceNode(s, 'm4').state; // start → zorana
+  s = advanceNode(s, 'm4').state; // zorana → dante
+  s = advanceNode(s, 'm4').state; // dante → reacao
   s = chooseOption(s, 'm4', 'ignorar').state;
   s = chooseOption(s, 'm4', 'advogado').state;
   return concludeMission(s, 'm4').state;
@@ -110,7 +115,9 @@ describe('cada decisão oferece alternativas reais', () => {
     s = concludeMission(s, 'm1').state;
 
     s = startMission(s, 'm2').state;
-    s = advanceNode(s, 'm2').state;
+    s = advanceNode(s, 'm2').state; // start → caetano
+    s = advanceNode(s, 'm2').state; // caetano → tiago
+    s = advanceNode(s, 'm2').state; // tiago → mesa
     expectOptionsInBand(s, 'm2'); // mesa
     s = chooseOption(s, 'm2', 'negociar').state;
     expectOptionsInBand(s, 'm2'); // vazamento
@@ -124,7 +131,9 @@ describe('cada decisão oferece alternativas reais', () => {
     s = concludeMission(s, 'm3').state;
 
     s = startMission(s, 'm4').state;
-    s = advanceNode(s, 'm4').state;
+    s = advanceNode(s, 'm4').state; // start → zorana
+    s = advanceNode(s, 'm4').state; // zorana → dante
+    s = advanceNode(s, 'm4').state; // dante → reacao
     expectOptionsInBand(s, 'm4'); // reacao
     s = chooseOption(s, 'm4', 'investigar').state;
     expectOptionsInBand(s, 'm4'); // origem
@@ -325,7 +334,8 @@ describe('nenhuma escolha executa repetidamente', () => {
   it('a segunda chamada da mesma escolha é recusada e nada muda', () => {
     let s = startMission(afterM1M2(), 'm3').state;
     s = advanceNode(s, 'm3').state; // start → relator
-    s = advanceNode(s, 'm3').state; // relator → linha
+    s = advanceNode(s, 'm3').state; // relator → camurca
+    s = advanceNode(s, 'm3').state; // camurca → linha
     const first = chooseOption(s, 'm3', 'juridica');
     expect(first.error).toBeUndefined();
     const again = chooseOption(first.state, 'm3', 'juridica');
@@ -378,7 +388,9 @@ describe('decisões anteriores abrem caminhos posteriores', () => {
     let s = playM3(afterM1M2(), ['juridica', 'direito', 'incidentes', 'aguardar']);
     s = concludeMission(s, 'm3').state;
     s = startMission(s, 'm4').state;
-    s = advanceNode(s, 'm4').state;
+    s = advanceNode(s, 'm4').state; // start → zorana
+    s = advanceNode(s, 'm4').state; // zorana → dante
+    s = advanceNode(s, 'm4').state; // dante → reacao
     s = chooseOption(s, 'm4', 'investigar').state; // encomenda a apuração (evento na fila)
     expect(visibleChoiceIds(s, 'm4')).not.toContain('publicar_fonte');
 

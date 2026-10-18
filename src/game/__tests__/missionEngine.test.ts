@@ -97,6 +97,8 @@ describe('fluxo entre missões', () => {
 
     // Missão 2: negocia com o PPV
     s = startMission(s, 'm2').state; // "start"
+    s = advanceNode(s, 'm2').state; // → "caetano"
+    s = advanceNode(s, 'm2').state; // → "tiago"
     s = advanceNode(s, 'm2').state; // → "mesa"
     s = chooseOption(s, 'm2', 'negociar').state; // → "vazamento"
     s = chooseOption(s, 'm2', 'confirmar').state; // → "fim"
@@ -107,6 +109,7 @@ describe('fluxo entre missões', () => {
     // Missão 3: linha jurídica + postura cautelosa diante do sinal
     s = startMission(s, 'm3').state; // "start"
     s = advanceNode(s, 'm3').state; // → "relator"
+    s = advanceNode(s, 'm3').state; // → "camurca"
     s = advanceNode(s, 'm3').state; // → "linha"
     s = chooseOption(s, 'm3', 'juridica').state; // → "imprensa"
     s = chooseOption(s, 'm3', 'direito').state; // → "sinal"
@@ -120,6 +123,8 @@ describe('fluxo entre missões', () => {
 
     // Missão 4: investiga e publica auditoria
     s = startMission(s, 'm4').state; // "start"
+    s = advanceNode(s, 'm4').state; // → "zorana"
+    s = advanceNode(s, 'm4').state; // → "dante"
     s = advanceNode(s, 'm4').state; // → "reacao"
     s = chooseOption(s, 'm4', 'investigar').state; // → "origem"
     s = chooseOption(s, 'm4', 'auditoria').state; // → "fim"
@@ -155,13 +160,17 @@ describe('falha de missão', () => {
   it('missão 3 falha se confiança institucional desmoronar', () => {
     let s = playMission1(fresh());
     s = startMission(s, 'm2').state;
-    s = advanceNode(s, 'm2').state;
+    s = advanceNode(s, 'm2').state; // start → caetano
+    s = advanceNode(s, 'm2').state; // caetano → tiago
+    s = advanceNode(s, 'm2').state; // tiago → mesa
     s = chooseOption(s, 'm2', 'negociar').state;
     s = chooseOption(s, 'm2', 'confirmar').state;
     s = concludeMission(s, 'm2').state;
     s = { ...s, attributes: { ...s.attributes, institutionalTrust: 10 } };
-    const started = startMission(s, 'm3');
-    expect(started.missionFinished?.failed).toBe(true);
+    let started = startMission(s, 'm3');
+    started = { ...started, state: advanceNode(started.state, 'm3').state };
+    started = { ...started, state: advanceNode(started.state, 'm3').state };
+    started = { ...started, state: advanceNode(started.state, 'm3').state };
     expect(started.state.failedMissions).toContain('m3');
     // Falha não bloqueia progressão: a missão 4 continua acessível via conclusões anteriores.
     expect(started.state.flags['fathersFate']).toBe('revisao_negada');

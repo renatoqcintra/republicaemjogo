@@ -283,7 +283,7 @@ describe('arco de André Monteiro na Missão 3', () => {
     expect(relator.t).toBe('dialogue');
     if (relator.t === 'dialogue') {
       expect(relator.speaker).toBe('amaro');
-      expect(relator.next).toBe('linha');
+      expect(relator.next).toBe('camurca');
     }
     expect(m3.characters).toContain('amaro');
   });

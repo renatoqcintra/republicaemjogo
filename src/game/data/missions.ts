@@ -229,7 +229,7 @@ export const MISSIONS: MissionDef[] = [
     ],
     context:
       'O encontro acontece em um restaurante sem placa, num bairro onde ninguém fotografaria ninguém por acaso.',
-    characters: ['sandoval', 'vera', 'iris', 'lutero', 'dulcinea'],
+    characters: ['sandoval', 'vera', 'iris', 'lutero', 'dulcinea', 'caetano', 'tiago'],
     objectives: [
       { id: 'o1', text: 'Defina os termos do apoio do PPV', completeWhen: [{ t: 'flag', flag: 'ppvDecision' }] },
       {
@@ -247,6 +247,20 @@ export const MISSIONS: MissionDef[] = [
         speaker: 'sandoval',
         text:
           'Fábio, eu apoio quem devolve. Meu partido entrega comício, rádio e um palanque no Vale inteiro. Em troca, quero presença real no seu primeiro ano — e um nome meu em pasta importante. Nada de vice decorativo.',
+        next: 'caetano',
+      },
+      caetano: {
+        t: 'dialogue',
+        speaker: 'caetano',
+        text:
+          'Caetano Góis observa da ponta da mesa, cinco mandatos de experiência acumulada no olhar. "Eu já vi acordo de Vale ser feito e desfeito na mesma tarde, Fábio. A pergunta não é se o PPV merece confiança — é se você pode governar sem eles. Meu conselho: negocie o que for possível, mas não entregue o primeiro ano de mão beijada."',
+        next: 'tiago',
+      },
+      tiago: {
+        t: 'dialogue',
+        speaker: 'tiago',
+        text:
+          'Tiago Farias abre uma planilha no tablet como quem consulta um orçamento doméstico. "Do lado técnico, o PPV entrega três regiões e uma malha de cooperativas que funcionam. Mas cada acordo com partido regional vem com um custo de governabilidade — eu já calculei o impacto no PPA. Se aceitar, prepare-se para negociar obra por obra, não mais."',
         next: 'mesa',
       },
       mesa: {
@@ -411,7 +425,7 @@ export const MISSIONS: MissionDef[] = [
     ],
     context:
       'O escritório Bezerra & Associados ocupa um andar inteiro de um prédio sem letreiro. Ninguém tira foto na entrada — por método.',
-    characters: ['salome', 'iris', 'amaro', 'helio'],
+    characters: ['salome', 'iris', 'amaro', 'helio', 'camurca'],
     objectives: [
       { id: 'o1', text: 'Escolha a linha de defesa do caso', completeWhen: [{ t: 'flag', flag: 'defenseLine' }] },
       { id: 'o2', text: 'Defina a posição sobre a autenticidade dos documentos', completeWhen: [{ t: 'flag', flag: 'docsPosition' }] },
@@ -455,6 +469,13 @@ export const MISSIONS: MissionDef[] = [
         speaker: 'amaro',
         text:
           'Na audiência de instrução, o relator André Monteiro fala baixo e obrigou a sala inteira a silenciar: "Este tribunal não ajusta calendário a palanque nem a manchete. Apresentem a defesa no rito, e o rito dirá. Quem tentar encurtar o caminho pagará o pedágio dobrado." Daniela anota tudo. Você percebe que ele não falou com ninguém dos dois lados depois.',
+        next: 'camurca',
+      },
+      camurca: {
+        t: 'dialogue',
+        speaker: 'camurca',
+        text:
+          'Felipe Azevedo, Ministro da Economia, aparece na porta do escritório com a expressão de quem viu o mesmo filme. "Eu não vim advogar por ninguém, Fábio. Vim porque o mercado lê processo como risco — e risco vira dólar. Se o seu pai virar pauta de PL, o seu governo nasce com o câmbio contra. A decisão é sua, mas o impacto é meu para administrar." Sai deixando o cheiro de café e planilha.',
         next: 'linha',
       },
       linha: {
@@ -805,7 +826,7 @@ export const MISSIONS: MissionDef[] = [
       'Sua equipe tem até o amanhã para decidir se corre, responde, investiga ou ignora.',
     ],
     context: 'O comitê trabalha em modo noturno. Café, projeção e um televisor com o som no mínimo.',
-    characters: ['vera', 'iris', 'bento', 'aurelio'],
+    characters: ['vera', 'iris', 'bento', 'aurelio', 'zorana', 'dante'],
     objectives: [
       { id: 'o1', text: 'Escolha a reação imediata ao vídeo', completeWhen: [{ t: 'flag', flag: 'videoReaction' }] },
       { id: 'o2', text: 'Defina a narrativa sobre o conteúdo do vídeo', completeWhen: [{ t: 'flag', flag: 'videoNarrative' }] },
@@ -825,6 +846,20 @@ export const MISSIONS: MissionDef[] = [
         text:
           'Vídeo autoral, produção cara, distribuição coordenada. Não é espontaneidade: é mídia paga disfarçada de descoberta do povo. Ainda assim, funciona.',
         effects: [{ t: 'flag', flag: 'videoCrisis', value: true }],
+        next: 'zorana',
+      },
+      zorana: {
+        t: 'dialogue',
+        speaker: 'zorana',
+        text:
+          "Thomas Walker, presidente da Federação de Karsavia, aparece por vídeo-chamada com um tabuleiro de xadrez ao fundo. \"Fábio, meu amigo, eu vi o vídeo. Na Karsavia, nós chamamos isso de 'operação de domingo de manhã' — quando o impacto é grande demais para ser acidente. Meu conselho: não responda com raiva, responda com fato. E se precisar de apoio diplomático, eu conheço pessoas que conhecem pessoas.\" Sorri como quem não disse nada.",
+        next: 'dante',
+      },
+      dante: {
+        t: 'dialogue',
+        speaker: 'dante',
+        text:
+          'Dante Valverde, do Grupo Valverde, manda uma mensagem de três linhas: "O vídeo já está sendo traduzido para seis idiomas e circulando em fundos de investimento. Se a sua campanha não controlar a narrativa em 48 horas, o mercado vai controlar por você. Eu não estou dizendo o que fazer — estou dizendo o que acontece se você não fizer."',
         next: 'reacao',
       },
       reacao: {

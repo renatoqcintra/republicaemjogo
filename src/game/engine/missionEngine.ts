@@ -81,7 +81,7 @@ export function startMission(state: CampaignState, id: MissionId): EngineOutcome
     return { state, notices: [], error: 'Missão indisponível no momento.' };
   }
   // Campanha encerrada: não permite iniciar novas missões.
-  if (state.day >= 56) {
+  if (state.day >= 84) {
     return {
       state,
       notices: [],
@@ -168,7 +168,7 @@ export function chooseOption(
   let working: CampaignState = {
     ...state,
     funds: real.funds !== undefined ? state.funds - real.funds : state.funds,
-    day: real.days !== undefined ? clamp(state.day + real.days, 1, 56) : state.day,
+    day: real.days !== undefined ? clamp(state.day + real.days, 1, 84) : state.day,
   };
 
   const consequences: string[] = [];

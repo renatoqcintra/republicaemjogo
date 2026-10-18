@@ -56,7 +56,7 @@ export function EndingScreen() {
           </li>
           <li>
             <span className="muted">Dias jogados</span>
-            <strong>{state.day} de 56</strong>
+            <strong>{state.day} de 84</strong>
           </li>
           <li>
             <span className="muted">Missões concluídas</span>

@@ -30,9 +30,7 @@ function afterM1M2(): CampaignState {
   s = concludeMission(s, 'm1').state;
 
   s = startMission(s, 'm2').state;
-  s = advanceNode(s, 'm2').state; // start → caetano
-  s = advanceNode(s, 'm2').state; // caetano → tiago
-  s = advanceNode(s, 'm2').state; // tiago → mesa
+  s = advanceNode(s, 'm2').state; // start → mesa
   s = chooseOption(s, 'm2', 'negociar').state;
   s = chooseOption(s, 'm2', 'confirmar').state;
   return concludeMission(s, 'm2').state;
@@ -115,9 +113,7 @@ describe('cada decisão oferece alternativas reais', () => {
     s = concludeMission(s, 'm1').state;
 
     s = startMission(s, 'm2').state;
-    s = advanceNode(s, 'm2').state; // start → caetano
-    s = advanceNode(s, 'm2').state; // caetano → tiago
-    s = advanceNode(s, 'm2').state; // tiago → mesa
+    s = advanceNode(s, 'm2').state; // start → mesa
     expectOptionsInBand(s, 'm2'); // mesa
     s = chooseOption(s, 'm2', 'negociar').state;
     expectOptionsInBand(s, 'm2'); // vazamento

@@ -5,8 +5,8 @@ export const SAVE_KEY = 'republica-em-jogo:save';
 export const META_KEY = 'republica-em-jogo:meta';
 export const SETTINGS_KEY = 'republica-em-jogo:settings';
 
-export const CAMPAIGN_DAYS = 56; // 8 semanas fictícias
-export const FINAL_WEEK_START = 49;
+export const CAMPAIGN_DAYS = 84; // 12 semanas fictícias
+export const FINAL_WEEK_START = 77;
 
 export const ATTR_MIN = 0;
 export const ATTR_MAX = 100;

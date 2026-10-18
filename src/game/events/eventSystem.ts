@@ -42,7 +42,7 @@ export function eligibleEvents(state: CampaignState, limit = 5): EventDef[] {
 export function rollDailyEvents(state: CampaignState): CampaignState {
   if (state.phase === 'ended' || state.phase === 'election') return state;
   // Campanha encerrada: não sorteia novos eventos.
-  if (state.day >= 56) return state;
+  if (state.day >= 84) return state;
 
   const must = EVENTS.filter(
     (e) =>
@@ -90,7 +90,7 @@ export function resolveEvent(
     return { state, notices: [], error: 'Este evento não está mais pendente.' };
   }
   // Campanha encerrada: não permite mais eventos.
-  if (state.day >= 56) {
+  if (state.day >= 84) {
     return {
       state,
       notices: [],
@@ -114,7 +114,7 @@ export function resolveEvent(
   let working: CampaignState = {
     ...state,
     funds: costFunds !== undefined ? state.funds - costFunds : state.funds,
-    day: clamp(state.day + (choice.cost?.days ?? 0), 1, 56),
+    day: clamp(state.day + (choice.cost?.days ?? 0), 1, 84),
     eventQueue: state.eventQueue.slice(1),
     firedEvents: state.firedEvents.includes(eventId)
       ? state.firedEvents

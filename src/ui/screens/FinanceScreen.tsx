@@ -43,7 +43,7 @@ export function FinanceScreen() {
             Caixa <strong>{formatMoney(state.funds)}</strong>
           </span>
           <span className="topbar-chip">
-            Dia <strong>{state.day}/56</strong>
+            Dia <strong>{state.day}/84</strong>
           </span>
           <span className="topbar-chip">
             Alvo <strong>{regionDef(selectedRegion).name}</strong>
@@ -94,7 +94,7 @@ export function FinanceScreen() {
                 </span>
                 <button
                   className={`btn ${affordable && allowed ? 'btn-primary' : ''}`}
-                  disabled={!affordable || !allowed || state.phase === 'ended' || state.day >= 56}
+                  disabled={!affordable || !allowed || state.phase === 'ended' || state.day >= 84}
                   onClick={() => {
                     if ((cost.funds ?? 0) >= 15) setPending(action);
                     else execute(action);

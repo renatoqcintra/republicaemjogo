@@ -71,7 +71,7 @@ describe('salvamento e carregamento', () => {
     expect(result.state?.attributes.popularity).toBe(100);
     expect(result.state?.attributes.reputation).toBe(0);
     expect(result.state?.funds).toBe(0);
-    expect(result.state?.day).toBe(56);
+    expect(result.state?.day).toBe(84);
     expect(result.warnings.length).toBeGreaterThan(0);
   });
 

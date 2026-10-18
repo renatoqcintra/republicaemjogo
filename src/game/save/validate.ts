@@ -50,7 +50,7 @@ export function validateSave(raw: unknown): ValidationOutcome {
   }
 
   const seed = num(state['seed'], 1, warnings, 'seed');
-  const day = Math.min(56, Math.max(1, num(state['day'], 1, warnings, 'day')));
+  const day = Math.min(84, Math.max(1, num(state['day'], 1, warnings, 'day')));
   const difficulty = (DIFFS as readonly string[]).includes(String(state['difficulty']))
     ? (state['difficulty'] as CampaignState['difficulty'])
     : 'normal';

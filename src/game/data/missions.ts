@@ -229,7 +229,7 @@ export const MISSIONS: MissionDef[] = [
     ],
     context:
       'O encontro acontece em um restaurante sem placa, num bairro onde ninguém fotografaria ninguém por acaso.',
-    characters: ['sandoval', 'vera', 'iris', 'lutero', 'dulcinea', 'caetano', 'tiago'],
+    characters: ['sandoval', 'vera', 'iris', 'lutero', 'dulcinea'],
     objectives: [
       { id: 'o1', text: 'Defina os termos do apoio do PPV', completeWhen: [{ t: 'flag', flag: 'ppvDecision' }] },
       {
@@ -247,20 +247,6 @@ export const MISSIONS: MissionDef[] = [
         speaker: 'sandoval',
         text:
           'Fábio, eu apoio quem devolve. Meu partido entrega comício, rádio e um palanque no Vale inteiro. Em troca, quero presença real no seu primeiro ano — e um nome meu em pasta importante. Nada de vice decorativo.',
-        next: 'caetano',
-      },
-      caetano: {
-        t: 'dialogue',
-        speaker: 'caetano',
-        text:
-          'Caetano Góis observa da ponta da mesa, cinco mandatos de experiência acumulada no olhar. "Eu já vi acordo de Vale ser feito e desfeito na mesma tarde, Fábio. A pergunta não é se o PPV merece confiança — é se você pode governar sem eles. Meu conselho: negocie o que for possível, mas não entregue o primeiro ano de mão beijada."',
-        next: 'tiago',
-      },
-      tiago: {
-        t: 'dialogue',
-        speaker: 'tiago',
-        text:
-          'Tiago Farias abre uma planilha no tablet como quem consulta um orçamento doméstico. "Do lado técnico, o PPV entrega três regiões e uma malha de cooperativas que funcionam. Mas cada acordo com partido regional vem com um custo de governabilidade — eu já calculei o impacto no PPA. Se aceitar, prepare-se para negociar obra por obra, não mais."',
         next: 'mesa',
       },
       mesa: {
@@ -821,9 +807,9 @@ export const MISSIONS: MissionDef[] = [
     title: 'A guerra das narrativas',
     tagline: 'Um vídeo de 47 segundos pode valer mais que dez comícios.',
     intro: [
-      'Às 19h12, um vídeo de campanha do adversário sobe para as redes: montagem cirúrgica, trilha dramática e uma legenda — "o que ele não quer que você lembre".',
-      'Em três horas, 11 milhões de visualizações e uma pergunta que circula em toda redação do país.',
-      'Sua equipe tem até o amanhã para decidir se corre, responde, investiga ou ignora.',
+      'Às 19h12, o adversário publica um vídeo de campanha nas redes: edição profissional, trilha dramática e a legenda "o que ele não quer que você lembre".',
+      'Em três horas, o vídeo tem 11 milhões de visualizações e uma pergunta que circula em toda redação do país.',
+      'Sua equipe tem até o amanhã para decidir: responder agora, investigar, ou deixar passar.',
     ],
     context: 'O comitê trabalha em modo noturno. Café, projeção e um televisor com o som no mínimo.',
     characters: ['vera', 'iris', 'bento', 'aurelio', 'zorana', 'dante'],
@@ -844,7 +830,7 @@ export const MISSIONS: MissionDef[] = [
         t: 'dialogue',
         speaker: 'vera',
         text:
-          'Vídeo autoral, produção cara, distribuição coordenada. Não é espontaneidade: é mídia paga disfarçada de descoberta do povo. Ainda assim, funciona.',
+          'O vídeo foi feito por profissionais: produção cara, distribuição coordenada, divulgação paga. Não é um vídeo que surgiu sozinho — foi uma operação. Mas, para quem assiste, parece verdade.',
         effects: [{ t: 'flag', flag: 'videoCrisis', value: true }],
         next: 'zorana',
       },
@@ -852,26 +838,26 @@ export const MISSIONS: MissionDef[] = [
         t: 'dialogue',
         speaker: 'zorana',
         text:
-          "Thomas Walker, presidente da Federação de Karsavia, aparece por vídeo-chamada com um tabuleiro de xadrez ao fundo. \"Fábio, meu amigo, eu vi o vídeo. Na Karsavia, nós chamamos isso de 'operação de domingo de manhã' — quando o impacto é grande demais para ser acidente. Meu conselho: não responda com raiva, responda com fato. E se precisar de apoio diplomático, eu conheço pessoas que conhecem pessoas.\" Sorri como quem não disse nada.",
+          'Thomas Walker, presidente da Federação de Karsavia, aparece por vídeo-chamada. "Fábio, eu já vi vídeo assim antes. Não responda com raiva — responda com fato. E se precisar de apoio diplomático, eu conheço pessoas que podem ajudar."',
         next: 'dante',
       },
       dante: {
         t: 'dialogue',
         speaker: 'dante',
         text:
-          'Dante Valverde, do Grupo Valverde, manda uma mensagem de três linhas: "O vídeo já está sendo traduzido para seis idiomas e circulando em fundos de investimento. Se a sua campanha não controlar a narrativa em 48 horas, o mercado vai controlar por você. Eu não estou dizendo o que fazer — estou dizendo o que acontece se você não fizer."',
+          'Dante Valverde, do Grupo Valverde, manda uma mensagem: "O vídeo já está circulando em fundos de investimento. Se a sua campanha não controlar a narrativa em 48 horas, o mercado vai controlar por você."',
         next: 'reacao',
       },
       reacao: {
         t: 'choice',
         speaker: 'bento',
         prompt:
-          'Rafael Sampaio, pela transmissão do MNR, resume o dilema: "Ou vocês correm atrás do vídeo, ou o vídeo correra atrás de vocês por uma semana."',
+          'Rafael Sampaio, do MNR, resume a situação: "Ou vocês respondem ao vídeo agora, ou o vídeo vai perseguir vocês por uma semana."',
         choices: [
           {
             id: 'esclarecer',
-            label: 'Nota imediata esclarecendo os fatos',
-            description: 'Rápido e barato. Funciona melhor com reputação sólida.',
+            label: 'Responder agora com uma nota de esclarecimento',
+            description: 'Rápido e barato. Funciona melhor se sua reputação estiver sólida.',
             requires: [{ t: 'attrGte', attr: 'reputation', value: 40 }],
             effects: [
               { t: 'attr', attr: 'influence', amount: 4 },
@@ -880,14 +866,14 @@ export const MISSIONS: MissionDef[] = [
               { t: 'faction', faction: 'imprensa', amount: 4 },
               { t: 'flag', flag: 'videoReaction', value: 'esclarecer' },
             ],
-            summary: 'Respondeu ao vídeo com nota imediata de esclarecimento.',
-            hint: 'Resposta rápida enquanto a reputação aguenta o ritmo da pergunta.',
+            summary: 'Respondeu ao vídeo com uma nota de esclarecimento imediata.',
+            hint: 'Resposta rápida enquanto a reputação aguenta.',
             next: 'origem',
           },
           {
             id: 'investigar',
-            label: 'Investigar a origem do vídeo antes de responder',
-            description: 'Custa tempo e verba. Pode revelar quem pagou a produção.',
+            label: 'Investigar quem fez o vídeo antes de responder',
+            description: 'Custa tempo e verba. Pode revelar quem pagou pela produção.',
             cost: { funds: 8, days: 2 },
             requires: [{ t: 'attrGte', attr: 'influence', value: 25 }],
             effects: [
@@ -895,14 +881,14 @@ export const MISSIONS: MissionDef[] = [
               { t: 'flag', flag: 'videoReaction', value: 'investigar' },
               { t: 'event', event: 'jornalista_descobre' },
             ],
-            summary: 'Investigou a origem do vídeo antes de reagir publicamente.',
-            hint: 'Custa dois dias e verba; pode revelar quem financiou a montagem — a tempo de usar.',
+            summary: 'Investigou quem produziu o vídeo antes de responder publicamente.',
+            hint: 'Custa dois dias e verba; pode revelar quem financiou o vídeo — a tempo de usar a informação.',
             next: 'origem',
           },
           {
             id: 'entrevista',
-            label: 'Conceder entrevista explicando tudo ao vivo',
-            description: 'Alto risco de pergunta inesperada, alto retorno de humanidade.',
+            label: 'Dar entrevista ao vivo para explicar o vídeo',
+            description: 'Risco de pergunta difícil, mas aproxima você do eleitor.',
             requires: [{ t: 'relationGte', who: 'iris', value: 15 }],
             effects: [
               { t: 'attr', attr: 'influence', amount: 6 },
@@ -912,21 +898,21 @@ export const MISSIONS: MissionDef[] = [
               { t: 'flag', flag: 'videoReaction', value: 'entrevista' },
             ],
             summary: 'Concedeu entrevista ao vivo para explicar o conteúdo do vídeo.',
-            hint: 'Humanidade em tempo real — e uma pergunta que você não pode desligar.',
+            hint: 'Proximidade com o eleitor — e uma pergunta que você não pode desligar.',
             next: 'origem',
           },
           {
             id: 'ignorar',
-            label: 'Ignorar e manter a agenda',
-            description: 'A agenda continua; o vídeo também.',
+            label: 'Ignorar e seguir a agenda',
+            description: 'Você não responde; o vídeo continua circulando sozinho.',
             effects: [
               { t: 'attr', attr: 'popularity', amount: -6 },
               { t: 'attr', attr: 'reputation', amount: -3 },
               { t: 'faction', faction: 'imprensa', amount: -5 },
               { t: 'flag', flag: 'videoReaction', value: 'ignorar' },
             ],
-            summary: 'Ignorou o vídeo crítico e manteve a agenda da campanha.',
-            hint: 'A agenda segue; o vídeo também, sozinho, por uma semana.',
+            summary: 'Ignorou o vídeo e manteve a agenda da campanha.',
+            hint: 'A campanha segue; o vídeo também, sozinho, por uma semana.',
             next: 'origem',
           },
         ],
@@ -935,12 +921,12 @@ export const MISSIONS: MissionDef[] = [
         t: 'choice',
         speaker: 'iris',
         prompt:
-          'Independentemente da tese do vídeo — dinheiro do pai em paraísos fictícios —, a pergunta que sobra é como vocês vão se posicionar diante do conteúdo.',
+          'O vídeo diz que o dinheiro do seu pai estava em paraíso fiscal. Independentemente de ser verdade ou não, a pergunta é: o que você faz com essa acusação?',
         choices: [
           {
             id: 'auditoria',
-            label: 'Publicar auditoria das contas da campanha',
-            description: 'Transparência radical: caro, chato e muito difícil de atacar depois.',
+            label: 'Publicar uma auditoria completa das suas contas',
+            description: 'Transparência total: caro, mas difícil de atacar depois.',
             cost: { funds: 10 },
             effects: [
               { t: 'attr', attr: 'reputation', amount: 7 },
@@ -948,14 +934,14 @@ export const MISSIONS: MissionDef[] = [
               { t: 'faction', faction: 'mercado', amount: -3 },
               { t: 'flag', flag: 'videoNarrative', value: 'auditoria' },
             ],
-            summary: 'Publicou auditoria independente das contas de campanha.',
-            hint: 'Custa verba; torna o seu caixa difícil de atacar pelo resto do ciclo.',
+            summary: 'Publicou uma auditoria completa das contas da campanha.',
+            hint: 'Custa verba; depois disso, suas contas ficam difíceis de atacar.',
             next: 'fim',
           },
           {
             id: 'contra',
-            label: 'Contratacar expondo a produção do vídeo',
-            description: 'Volta o holofote para o adversário — e para a guerra de bastidores.',
+            label: 'Revidar mostrando quem produziu o vídeo',
+            description: 'Coloque o holofote no adversário — e entre na guerra de bastidores com ele.',
             effects: [
               { t: 'attr', attr: 'influence', amount: 5 },
               { t: 'relation', who: 'aurelio', amount: -12 },
@@ -963,28 +949,28 @@ export const MISSIONS: MissionDef[] = [
               { t: 'faction', faction: 'imprensa', amount: 3 },
               { t: 'flag', flag: 'videoNarrative', value: 'contra' },
             ],
-            summary: 'Contratacou expondo a produção e o financiamento do vídeo crítico.',
+            summary: 'Revidou mostrando quem produziu e financiou o vídeo.',
             hint: 'Devolve o holofote ao adversário — e entra na guerra de bastidores com ele.',
             next: 'fim',
           },
           {
             id: 'advogado',
-            label: 'Nota técnica de assessores jurídicos',
-            description: 'Protocolo, linguagem de contrato, zero emoção.',
+            label: 'Responder com nota técnica dos advogados',
+            description: 'Linguagem formal, sem emoção, zero risco jurídico.',
             effects: [
               { t: 'attr', attr: 'institutionalTrust', amount: 2 },
               { t: 'attr', attr: 'popularity', amount: -3 },
               { t: 'flag', flag: 'videoNarrative', value: 'advogado' },
             ],
-            summary: 'Respondeu ao vídeo com nota técnica de assessores jurídicos.',
-            hint: 'Clareza jurídica, zero emoção: protege quem lê, entedia quem assiste.',
+            summary: 'Respondeu ao vídeo com uma nota técnica dos advogados.',
+            hint: 'Protege você juridicamente, mas não convence quem assiste.',
             next: 'fim',
           },
           {
             id: 'publicar_fonte',
-            label: 'Publicar a origem apurada do vídeo',
+            label: 'Publicar o resultado da investigação sobre a origem do vídeo',
             description:
-              'A equipe encontrou quem pagou a produção. Tornar isso público vira a notícia do dia — e um alvo nas costas.',
+              'A equipe descobriu quem pagou pela produção. Publicar isso vira a notícia do dia — e torna você um alvo.',
             requires: [{ t: 'flag', flag: 'videoSourceFound' }],
             cost: { funds: 6 },
             effects: [
@@ -994,15 +980,15 @@ export const MISSIONS: MissionDef[] = [
               { t: 'relation', who: 'aurelio', amount: -15 },
               { t: 'flag', flag: 'videoNarrative', value: 'fonte' },
             ],
-            summary: 'Tornou pública a origem apurada do vídeo crítico.',
-            hint: 'Sua apuração vira manchete — e o adversário passa a responder na mesma moeda.',
+            summary: 'Publicou o resultado da investigação sobre quem produziu o vídeo.',
+            hint: 'Sua investigação vira manchete — e o adversário passa a responder na mesma moeda.',
             next: 'fim',
           },
           {
             id: 'resposta_paga',
-            label: 'Bancar a resposta com a verba contratada de Dante',
+            label: 'Pagar uma campanha de resposta com a verba de Dante',
             description:
-              'Dinheiro declarado e contratado: saturar a mídia com a versão da campanha até o vídeo perder força.',
+              'Use o dinheiro contratado com Dante Valverde para inundar a mídia com a sua versão até o vídeo perder força.',
             requires: [
               {
                 t: 'any',
@@ -1020,8 +1006,8 @@ export const MISSIONS: MissionDef[] = [
               { t: 'relation', who: 'dante', amount: 5 },
               { t: 'flag', flag: 'videoNarrative', value: 'paga' },
             ],
-            summary: 'Financiou a resposta ao vídeo crítico com a verba contratada de Dante Valverde.',
-            hint: 'Alcance imediato e dívida assumida com o financiador — a página três do contrato cobra depois.',
+            summary: 'Pagou uma campanha de resposta com a verba contratada de Dante Valverde.',
+            hint: 'Alcance imediato — mas a dívida com o financiador cobra depois.',
             next: 'fim',
           },
         ],
@@ -1029,7 +1015,7 @@ export const MISSIONS: MissionDef[] = [
       fim: {
         t: 'end',
         text:
-          'O vídeo sai das manchetes na terça. O que fica é a pergunta de sempre, em outra roupagem: quem é este candidato, e o que ele faz quando ninguém está olhando.',
+          'O vídeo sai das manchetes na terça. O que fica é a pergunta que sempre fica: quem é este candidato, e o que ele faz quando ninguém está olhando.',
       },
     },
     completion: {

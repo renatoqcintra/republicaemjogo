@@ -97,8 +97,6 @@ describe('fluxo entre missões', () => {
 
     // Missão 2: negocia com o PPV
     s = startMission(s, 'm2').state; // "start"
-    s = advanceNode(s, 'm2').state; // → "caetano"
-    s = advanceNode(s, 'm2').state; // → "tiago"
     s = advanceNode(s, 'm2').state; // → "mesa"
     s = chooseOption(s, 'm2', 'negociar').state; // → "vazamento"
     s = chooseOption(s, 'm2', 'confirmar').state; // → "fim"
@@ -160,9 +158,7 @@ describe('falha de missão', () => {
   it('missão 3 falha se confiança institucional desmoronar', () => {
     let s = playMission1(fresh());
     s = startMission(s, 'm2').state;
-    s = advanceNode(s, 'm2').state; // start → caetano
-    s = advanceNode(s, 'm2').state; // caetano → tiago
-    s = advanceNode(s, 'm2').state; // tiago → mesa
+    s = advanceNode(s, 'm2').state; // start → mesa
     s = chooseOption(s, 'm2', 'negociar').state;
     s = chooseOption(s, 'm2', 'confirmar').state;
     s = concludeMission(s, 'm2').state;

@@ -48,7 +48,7 @@ describe('fluxo principal da interface', () => {
     render(<App />);
     await startCampaign(user);
 
-    expect(screen.getByText(/dia 1 de 56/i)).toBeInTheDocument();
+    expect(screen.getByText(/dia 1 de 84/i)).toBeInTheDocument();
     expect(screen.getByText(/Popularidade/i)).toBeInTheDocument();
   });
 
@@ -188,7 +188,7 @@ describe('fluxo principal da interface', () => {
     render(<App />);
     await startCampaign(user);
 
-    useCampaign.getState().advanceDays(50);
+    useCampaign.getState().advanceDays(77);
     await waitFor(() => expect(screen.getAllByText(/semana final/i).length).toBeGreaterThan(0));
 
     await user.click(screen.getByRole('button', { name: /retirar candidatura/i }));
@@ -203,12 +203,12 @@ describe('fluxo principal da interface', () => {
     await startCampaign(user);
 
     // Semana final, mas missão 5 pendente e antes do último dia: sem apuração.
-    useCampaign.getState().advanceDays(50);
+    useCampaign.getState().advanceDays(77);
     await waitFor(() => expect(screen.getAllByText(/semana final/i).length).toBeGreaterThan(0));
     expect(screen.queryByRole('button', { name: /encerrar campanha|apurar resultado/i })).toBeNull();
 
     // Último dia: o botão aparece e a confirmação pode ser recusada.
-    useCampaign.getState().advanceDays(6);
+    useCampaign.getState().advanceDays(7);
     await user.click(await screen.findByRole('button', { name: /encerrar campanha|apurar resultado/i }));
     const cancelDialog = await screen.findByRole('dialog', { name: /encerrar a campanha e apurar/i });
     await user.click(within(cancelDialog).getByRole('button', { name: /cancelar/i }));

@@ -266,7 +266,7 @@ export function MissionScreen() {
               </li>
               <li>
                 <span className="muted">Dia</span>
-                <strong>{state.day}/56</strong>
+                <strong>{state.day}/84</strong>
               </li>
               {Object.entries(state.attributes).map(([k, v]) => (
                 <li key={k}>

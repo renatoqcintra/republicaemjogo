@@ -56,7 +56,7 @@ export function performAction(
   let working: CampaignState = {
     ...state,
     funds: costFunds !== undefined ? state.funds - costFunds : state.funds,
-    day: clamp(state.day + (def.cost.days ?? 0), 1, 56),
+    day: clamp(state.day + (def.cost.days ?? 0), 1, 84),
   };
 
   // Efeitos regionais com retornos decrescentes.

@@ -137,7 +137,7 @@ export default function App() {
           {state && (
             <div className="row" style={{ gap: 6 }}>
               <span className="topbar-chip">
-                Dia <strong>{state.day}/56</strong>
+                Dia <strong>{state.day}/84</strong>
               </span>
               <span className="topbar-chip">
                 Caixa <strong>{formatMoney(state.funds)}</strong>

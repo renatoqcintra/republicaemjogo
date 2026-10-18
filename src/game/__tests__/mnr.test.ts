@@ -289,7 +289,7 @@ describe('MNR — alcançabilidade em campanha normal', () => {
       const m3 = m2 + 5 + (seed % 4);
       const m4 = m3 + 7 + (seed % 5);
       const fired = new Set<string>();
-      for (let day = 1; day <= 56; day++) {
+      for (let day = 1; day <= 84; day++) {
         const done: MissionId[] = ['m1'];
         if (day >= m2) done.push('m2');
         if (day >= m3) done.push('m3');

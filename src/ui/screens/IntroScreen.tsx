@@ -1,5 +1,6 @@
 import { useCampaign } from '@/game/state/campaignStore';
 import { character } from '@/game/data/characters';
+import { CAMPAIGN_DAYS, FINAL_WEEK_START, INITIAL_FUNDS } from '@/game/constants';
 import { Portrait } from '../components/Portrait';
 import { playSound } from '@/game/audio/audioManager';
 import { useCampaignState } from './helpers';
@@ -11,57 +12,150 @@ export function IntroScreen() {
 
   if (!state) return null;
 
-  const rafael = character('rafael');
+  const fabio = character('rafael');
   const helio = character('helio');
   const aurelio = character('aurelio');
 
   return (
     <div className="screen">
-      <div className="kicker">Introdução narrativa</div>
-      <h2>Quatro semanas antes da candidatura</h2>
+      <div className="kicker">Introdução</div>
+      <h2>Como funciona o jogo</h2>
 
+      {/* ------------------------------------------------------------------ */}
+      {/* QUEM É O JOGADOR */}
+      {/* ------------------------------------------------------------------ */}
       <div className="card mt">
         <div className="dialogue">
-          <Portrait spec={helio.portrait} size="md" label={helio.name} />
+          <Portrait spec={fabio.portrait} size="md" label={fabio.name} />
           <div className="dialogue-bubble">
-            <div className="speaker-label">{helio.name} — bilhete do presídio de Santa Brígida</div>
+            <div className="speaker-label">Seu personagem</div>
             <p>
-              "Filho, escrevo entre uma audiência e outra. Condenaram-me por aquilo que provaram e por
-              aquilo que imaginaram. A diferença entre os dois é o que você vai tentar corrigir — ou vai
-              herdar. Escolha agora: ou entra nessa brincadeira com método, ou não entre."
+              <strong>Fábio Barreto</strong>, 38 anos. Filho do ex-presidente Júlio Barreto, condenado
+              pela Justiça. Você fundou uma ONG de transparência que virou plataforma política — e
+              agora disputa a presidência da República.
             </p>
-            <p className="small muted">O bilhete termina com um treco de piada sobre o café do presídio.</p>
+            <p className="small muted">
+              Seu pai escreveu da prisão: <em>"ou entra nessa brincadeira com método, ou não entre."</em>
+            </p>
           </div>
         </div>
       </div>
 
+      {/* ------------------------------------------------------------------ */}
+      {/* OBJETIVO */}
+      {/* ------------------------------------------------------------------ */}
       <div className="card">
-        <div className="dialogue">
-          <Portrait spec={rafael.portrait} size="md" label={rafael.name} />
-          <div className="dialogue-bubble">
-            <div className="speaker-label">{rafael.name}</div>
-            <p>
-              Fábio Barreto tem 38 anos, um curso de Direito que nunca usou profissionalmente e uma ONG
-              de transparência que virou plataforma política. O pai preso é a pergunta de todas as
-              entrevistas. A resposta que ele preparou cabe em uma frase: "o julgamento segue o seu curso".
+        <div className="kicker">Objetivo</div>
+        <h3>Vencer a eleição em {CAMPAIGN_DAYS} dias</h3>
+        <p className="small">
+          A campanha dura <strong>{CAMPAIGN_DAYS} dias</strong> ({CAMPAIGN_DAYS / 7} semanas). No dia{' '}
+          {FINAL_WEEK_START} começa a semana final e, no fim, a apuração decide se você vence.
+        </p>
+        <p className="small">
+          Ao mesmo tempo, o <strong>processo do seu pai</strong> corre em paralelo. Suas escolhas
+          influenciam os dois desfechos — o eleitoral e o jurídico.
+        </p>
+      </div>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* MECÂNICAS */}
+      {/* ------------------------------------------------------------------ */}
+      <div className="card">
+        <div className="kicker">Mecânicas principais</div>
+        <div className="grid grid-2 mt" style={{ gap: 12 }}>
+          <div>
+            <h4>📅 Avançar dias</h4>
+            <p className="small muted">
+              Cada dia, você pode executar <strong>ações estratégicas</strong> gastando verba e dias —
+              ou avançar para o próximo dia. Eventos podem surgir e exigir decisões.
             </p>
-            <p className="muted small">
-              Sua campanha vai durar oito semanas. Cada escolha custa verba, dias e aliados — e devolve
-              consequências na eleição e no processo.
+          </div>
+          <div>
+            <h4>📋 Missões</h4>
+            <p className="small muted">
+              <strong>5 missões principais</strong> contam a história da campanha. Cada uma tem escolhas
+              com consequências. Missões não concluídas <strong>penalizam a apuração</strong>.
+            </p>
+          </div>
+          <div>
+            <h4>💰 Verba</h4>
+            <p className="small muted">
+              Você começa com <strong>R$ {INITIAL_FUNDS} milhões</strong>. Ações, missões e eventos
+              gastam verba. Sem dinheiro, sem campanha.
+            </p>
+          </div>
+          <div>
+            <h4>📊 Atributos</h4>
+            <p className="small muted">
+              <strong>Popularidade, Influência, Reputação, Confiança Institucional e Lealdade</strong>{' '}
+              determinam quais escolhas estão disponíveis e como você se sai na apuração.
+            </p>
+          </div>
+          <div>
+            <h4>🗺️ Regiões</h4>
+            <p className="small muted">
+              O Brasil tem <strong>5 regiões</strong> com prioridades diferentes. Alianças locais e
+              aderência às pautas regionais influenciam o resultado em cada uma.
+            </p>
+          </div>
+          <div>
+            <h4>🎤 Debates e eventos</h4>
+            <p className="small muted">
+              Debates nacionais afetam sua reputação. Eventos diários surgem aleatoriamente — cada um
+              com escolhas que mudam o rumo da campanha.
             </p>
           </div>
         </div>
       </div>
 
+      {/* ------------------------------------------------------------------ */}
+      {/* TELAS */}
+      {/* ------------------------------------------------------------------ */}
+      <div className="card">
+        <div className="kicker">Onde clicar</div>
+        <div className="grid grid-3 mt" style={{ gap: 10 }}>
+          <div>
+            <h4>Painel</h4>
+            <p className="small muted">Visão geral: dia, verba, atributos e missão recomendada.</p>
+          </div>
+          <div>
+            <h4>Mapa</h4>
+            <p className="small muted">Veja o apoio em cada região e escolha onde priorizar.</p>
+          </div>
+          <div>
+            <h4>Missões</h4>
+            <p className="small muted">Acesse as 5 missões da história — o coração do jogo.</p>
+          </div>
+          <div>
+            <h4>Ações</h4>
+            <p className="small muted">Estratégias que gastam verba e dias: mídia, pesquisas, comícios.</p>
+          </div>
+          <div>
+            <h4>Alianças</h4>
+            <p className="small muted">Negocie com partidos e figuras políticas para ganhar apoio.</p>
+          </div>
+          <div>
+            <h4>Debate</h4>
+            <p className="small muted">Participe de debates ao vivo — escolha bem ou pague o preço.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* ADVERSÁRIO */}
+      {/* ------------------------------------------------------------------ */}
       <div className="card">
         <div className="dialogue">
           <Portrait spec={aurelio.portrait} size="md" label={aurelio.name} />
           <div className="dialogue-bubble">
-            <div className="speaker-label">{aurelio.name} — adversário, quatro disputas nacionais</div>
+            <div className="speaker-label">{aurelio.name} — adversário</div>
             <p>
-              "Preparou-se para disputar com um nome grande. Eu disputei com um nome pequeno durante vinte
-              anos. A conta é simples: quem tem estrutura vence quem tem manchete — até o dia em que a
-              manchete vira estrutura."
+              "Quem tem estrutura vence quem tem manchete — até o dia em que a manchete vira
+              estrutura."
+            </p>
+            <p className="small muted">
+              Leandro Lacerda é seu adversário na eleição. Ele tem partido, dinheiro e mídia. Você
+              tem 84 dias e escolhas para fazer.
             </p>
           </div>
         </div>

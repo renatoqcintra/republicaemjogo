@@ -13,7 +13,6 @@ export function IntroScreen() {
   if (!state) return null;
 
   const fabio = character('rafael');
-  const helio = character('helio');
   const aurelio = character('aurelio');
 
   return (

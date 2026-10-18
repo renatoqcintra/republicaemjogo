@@ -28,13 +28,16 @@ export function PanelScreen() {
   const pendingEvent = nextPendingEvent(state);
   const inFinalWeek = state.phase === 'finalWeek' || state.day >= FINAL_WEEK_START;
   const m5Status = state.missions.m5.status;
-  const canFinish = state.day >= CAMPAIGN_DAYS || m5Status === 'done';
+  const campaignOver = state.day >= CAMPAIGN_DAYS;
+  const canFinish = campaignOver || m5Status === 'done';
   const finishHint =
-    m5Status === 'done'
-      ? 'A apuração simulada está disponível. Sua campanha está fechada — apure quando quiser.'
-      : m5Status === 'available' || m5Status === 'active'
-        ? 'A apuração simulada está disponível. Conclua a missão “A última semana” para maximizar seus números — ou apure agora.'
-        : 'A apuração simulada está disponível. Complete as missões pendentes para maximizar seus números — ou apure agora.';
+    campaignOver
+      ? 'A campanha chegou ao fim. Encerre a apuração para ver o resultado.'
+      : m5Status === 'done'
+        ? 'A apuração simulada está disponível. Sua campanha está fechada — apure quando quiser.'
+        : m5Status === 'available' || m5Status === 'active'
+          ? 'A apuração simulada está disponível. Conclua a missão "A última semana" para maximizar seus números — ou apure agora.'
+          : 'A apuração simulada está disponível. Complete as missões pendentes para maximizar seus números — ou apure agora.';
 
   return (
     <div className="screen">
@@ -127,13 +130,13 @@ export function PanelScreen() {
           <div className="card">
             <h3>Ações rápidas</h3>
             <div className="stack">
-              <button className="btn" onClick={() => { playSound('click'); advanceDays(1); }}>
+              <button className="btn" onClick={() => { playSound('click'); advanceDays(1); }} disabled={campaignOver}>
                 Avançar 1 dia
               </button>
-              <button className="btn" onClick={() => { playSound('click'); advanceDays(3); }}>
+              <button className="btn" onClick={() => { playSound('click'); advanceDays(3); }} disabled={campaignOver}>
                 Avançar 3 dias
               </button>
-              <button className="btn" onClick={() => setView('financas')}>
+              <button className="btn" onClick={() => setView('financas')} disabled={campaignOver}>
                 Ações estratégicas
               </button>
               <button className="btn" onClick={() => setView('mapa')}>
@@ -172,19 +175,19 @@ export function PanelScreen() {
             </p>
           </div>
 
-          {inFinalWeek && (
+          {(inFinalWeek || campaignOver) && (
             <div className="card">
-              <h3>Semana final</h3>
+              <h3>{campaignOver ? 'Fim de campanha' : 'Semana final'}</h3>
               <p className="small muted">{finishHint}</p>
               <div className="stack">
                 {canFinish ? (
                   <button className="btn btn-gold" onClick={() => setConfirmFinish(true)}>
-                    Encerrar campanha e apurar
+                    {campaignOver ? 'Apurar resultado' : 'Encerrar campanha e apurar'}
                   </button>
                 ) : (
                   <p className="tiny muted">
                     A apuração será liberada no último dia da campanha (dia {CAMPAIGN_DAYS}) ou ao
-                    concluir a missão “A última semana”.
+                    concluir a missão "A última semana".
                   </p>
                 )}
                 <button className="btn btn-danger" onClick={() => setConfirmWithdraw(true)}>

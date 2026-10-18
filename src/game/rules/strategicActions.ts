@@ -4,6 +4,7 @@ import { evalAll } from '../conditions';
 import { unlockPass } from '../engine/missionEngine';
 import { clamp } from './numbers';
 import { regionDef } from '../data/regions';
+import { CAMPAIGN_DAYS } from '../constants';
 import type { CampaignState, Effect, RegionId } from '../types';
 
 export interface ActionOutcome {
@@ -25,6 +26,15 @@ export function performAction(
 ): ActionOutcome {
   const def = actionDef(actionId);
   if (!def) return { state, notices: [], error: 'Ação desconhecida.' };
+
+  // Campanha encerrada: não permite mais ações estratégicas.
+  if (state.day >= CAMPAIGN_DAYS) {
+    return {
+      state,
+      notices: [],
+      error: 'A campanha chegou ao fim. Encerre a apuração para ver o resultado.',
+    };
+  }
 
   if (!evalAll(def.requires, state)) {
     return { state, notices: [], error: 'Seus atributos atuais não permitem esta ação.' };

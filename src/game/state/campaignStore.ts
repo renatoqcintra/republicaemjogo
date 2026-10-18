@@ -281,6 +281,8 @@ export const useCampaign = create<CampaignStore>((set, get) => {
     advanceDays: (days) => {
       const state = get().state;
       if (!state || state.phase === 'ended' || state.phase === 'election') return;
+      // Campanha encerrada: não permite avançar dias.
+      if (state.day >= CAMPAIGN_DAYS) return;
       let next: CampaignState = {
         ...state,
         day: clamp(state.day + days, 1, CAMPAIGN_DAYS),

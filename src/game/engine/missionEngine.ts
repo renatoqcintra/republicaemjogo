@@ -80,6 +80,14 @@ export function startMission(state: CampaignState, id: MissionId): EngineOutcome
   if (!progress || progress.status !== 'available') {
     return { state, notices: [], error: 'Missão indisponível no momento.' };
   }
+  // Campanha encerrada: não permite iniciar novas missões.
+  if (state.day >= 56) {
+    return {
+      state,
+      notices: [],
+      error: 'A campanha chegou ao fim. Encerre a apuração para ver o resultado.',
+    };
+  }
   const startNode = def.nodes[def.startNode];
   const applied = applyEffects(
     {

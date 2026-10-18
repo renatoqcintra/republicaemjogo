@@ -94,7 +94,7 @@ export function FinanceScreen() {
                 </span>
                 <button
                   className={`btn ${affordable && allowed ? 'btn-primary' : ''}`}
-                  disabled={!affordable || !allowed || state.phase === 'ended'}
+                  disabled={!affordable || !allowed || state.phase === 'ended' || state.day >= 56}
                   onClick={() => {
                     if ((cost.funds ?? 0) >= 15) setPending(action);
                     else execute(action);

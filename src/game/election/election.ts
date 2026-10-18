@@ -69,6 +69,13 @@ export function simulateElection(state: CampaignState): ElectionResult {
   const debateWon = state.flags['debateWon'] === true;
   const scandalPenalty = trust < 35 ? (35 - trust) * 0.12 : 0;
 
+  // Penalidade por missões não concluídas: cada missão pendente custa votos.
+  const ALL_MISSIONS = ['m1', 'm2', 'm3', 'm4', 'm5'] as const;
+  const incompleteMissions = ALL_MISSIONS.filter(
+    (id) => !state.completedMissions.includes(id) && !state.failedMissions.includes(id),
+  );
+  const missionPenalty = incompleteMissions.length * 2.5;
+
   // Conexão entre missões e apuração: a região priorizada no primeiro dia
   // (Missão 1) e a região do empurrão final (Missão 5) viram fatores
   // nomeados no resultado de cada região.
@@ -111,6 +118,7 @@ export function simulateElection(state: CampaignState): ElectionResult {
 
     if (scandalPenalty > 0) push('Crise institucional em curso', -scandalPenalty);
     if (trust >= 60) push('Confiança institucional elevada', (trust - 60) * 0.05);
+    if (missionPenalty > 0) push('Missões da campanha não concluídas', -missionPenalty);
 
     const volatilityNoise = (rng() - 0.5) * 2 * def.volatility * 2.2;
     push('Variação regional (ruído da simulação)', volatilityNoise);

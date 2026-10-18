@@ -30,14 +30,17 @@ export function PanelScreen() {
   const m5Status = state.missions.m5.status;
   const campaignOver = state.day >= CAMPAIGN_DAYS;
   const canFinish = campaignOver || m5Status === 'done';
-  const finishHint =
-    campaignOver
+  const allMissions = ['m1', 'm2', 'm3', 'm4', 'm5'] as const;
+  const pendingMissions = allMissions.filter(
+    (id) => state.missions[id].status !== 'done' && !state.failedMissions.includes(id),
+  );
+  const finishHint = pendingMissions.length > 0
+    ? `Atenção: ${pendingMissions.length} missão(ões) não concluída(s). Cada missão pendente penaliza sua apuração. Apure mesmo assim?`
+    : campaignOver
       ? 'A campanha chegou ao fim. Encerre a apuração para ver o resultado.'
       : m5Status === 'done'
-        ? 'A apuração simulada está disponível. Sua campanha está fechada — apure quando quiser.'
-        : m5Status === 'available' || m5Status === 'active'
-          ? 'A apuração simulada está disponível. Conclua a missão "A última semana" para maximizar seus números — ou apure agora.'
-          : 'A apuração simulada está disponível. Complete as missões pendentes para maximizar seus números — ou apure agora.';
+        ? 'Todas as missões concluídas. A apuração simulada está disponível — apure quando quiser.'
+        : 'A apuração simulada está disponível.';
 
   return (
     <div className="screen">

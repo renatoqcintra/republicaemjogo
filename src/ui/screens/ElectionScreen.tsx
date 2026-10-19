@@ -61,29 +61,31 @@ export function ElectionScreen() {
       <div className="grid grid-2">
         <div className="card">
           <h3>Resultado por região</h3>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Região</th>
-                <th className="num">Você</th>
-                <th className="num">Adversário</th>
-                <th className="num">Part.</th>
-              </tr>
-            </thead>
-            <tbody>
-              {result.regions.map((r) => (
-                <tr key={r.region}>
-                  <td>
-                    <strong>{r.name}</strong>
-                    <div className="tiny muted">peso {r.weight}%</div>
-                  </td>
-                  <td className="num">{r.playerPct.toFixed(1)}%</td>
-                  <td className="num">{r.opponentPct.toFixed(1)}%</td>
-                  <td className="num">{(r.turnout * 100).toFixed(0)}%</td>
+          <div className="table-wrap">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Região</th>
+                  <th className="num">Você</th>
+                  <th className="num">Adversário</th>
+                  <th className="num">Part.</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {result.regions.map((r) => (
+                  <tr key={r.region}>
+                    <td>
+                      <strong>{r.name}</strong>
+                      <div className="tiny muted">peso {r.weight}%</div>
+                    </td>
+                    <td className="num">{r.playerPct.toFixed(1)}%</td>
+                    <td className="num">{r.opponentPct.toFixed(1)}%</td>
+                    <td className="num">{(r.turnout * 100).toFixed(0)}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div className="card">

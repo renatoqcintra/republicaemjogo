@@ -3,7 +3,7 @@ import type { MissionDef } from '../types';
 /**
  * As cinco missões iniciais, conectadas e jogáveis.
  *
- * Cada missão é GRAFRO DE NÓS interpretado pelo motor (engine/missionEngine):
+ * Cada missão é GRAFO DE NÓS interpretado pelo motor (engine/missionEngine):
  * o mesmo motor serve para qualquer novo capítulo futuro. Nenhuma missão é
  * texto estático — todas têm escolhas verificáveis no estado da partida.
  *
@@ -45,7 +45,7 @@ export const MISSIONS: MissionDef[] = [
         t: 'dialogue',
         speaker: 'vera',
         text:
-          'Última checagem, candidato. Três blocos: abertura curta, anúncio e perguntas. Se perguntarem sobre o seu pai, eu tóssico duas vezes e você responde "o julgamento segue o seu curso". Combinado?',
+          'Última checagem, candidato. Três blocos: abertura curta, anúncio e perguntas. Se perguntarem sobre o seu pai, eu tosso duas vezes e você responde "o julgamento segue o seu curso". Combinado?',
         next: 'plenario',
       },
       plenario: {
@@ -379,7 +379,7 @@ export const MISSIONS: MissionDef[] = [
               { t: 'attr', attr: 'influence', amount: 2 },
             ],
             summary: 'Acionou Sílvio Valente para cobertura isonômica do grupo durante o vazamento.',
-            hint: 'A mídia do doador neutraliza o portali — e a dívida com Sílvio aparece na conta depois.',
+            hint: 'A mídia do doador neutraliza o portal — e a dívida com Sílvio aparece na conta depois.',
             next: 'fim',
           },
         ],
@@ -454,7 +454,7 @@ export const MISSIONS: MissionDef[] = [
         t: 'dialogue',
         speaker: 'amaro',
         text:
-          'Na audiência de instrução, o relator André Monteiro fala baixo e obrigou a sala inteira a silenciar: "Este tribunal não ajusta calendário a palanque nem a manchete. Apresentem a defesa no rito, e o rito dirá. Quem tentar encurtar o caminho pagará o pedágio dobrado." Daniela anota tudo. Você percebe que ele não falou com ninguém dos dois lados depois.',
+          'Na audiência de instrução, o relator André Monteiro falou baixo e obrigou a sala inteira a silenciar: "Este tribunal não ajusta calendário a palanque nem a manchete. Apresentem a defesa no rito, e o rito dirá. Quem tentar encurtar o caminho pagará o pedágio dobrado." Daniela anota tudo. Você percebe que ele não falou com ninguém dos dois lados depois.',
         next: 'camurca',
       },
       camurca: {
@@ -831,7 +831,7 @@ export const MISSIONS: MissionDef[] = [
         t: 'dialogue',
         speaker: 'vera',
         text:
-          'Assisti três vezes. O vídeo é uma montagem: pega documentos reais do processo do seu pai, corta do jeito que convém e coloca uma legenda que insinua sem provar. Produção cara, distribuição coordenada — não é espontaneo, é uma operação de marketing político. Mas, para quem assiste sem contexto, parece verdade.',
+          'Assisti três vezes. O vídeo é uma montagem: pega documentos reais do processo do seu pai, corta do jeito que convém e coloca uma legenda que insinua sem provar. Produção cara, distribuição coordenada — não é espontâneo, é uma operação de marketing político. Mas, para quem assiste sem contexto, parece verdade.',
         effects: [{ t: 'flag', flag: 'videoCrisis', value: true }],
         next: 'zorana',
       },
@@ -839,21 +839,21 @@ export const MISSIONS: MissionDef[] = [
         t: 'dialogue',
         speaker: 'zorana',
         text:
-          'Thomas Walker, presidente da Federação de Karsavia, liga por vídeo-chamada. "Fábio, eu já vi vídeo assim antes — na Karsavia e em outros lugares. Eles querem que você reagia com raiva, porque aí você parece culpado. Não caia nessa. Responda com fato, com calma. E se precisar de apoio internacional, eu conheço pessoas que podem ajudar."',
+          'Thomas Walker, presidente da Federação de Karsavia, liga por vídeo-chamada. "Fábio, eu já vi vídeo assim antes — na Karsavia e em outros lugares. Eles querem que você reaja com raiva, porque aí você parece culpado. Não caia nessa. Responda com fato, com calma. E se precisar de apoio internacional, eu conheço pessoas que podem ajudar."',
         next: 'dante',
       },
       dante: {
         t: 'dialogue',
         speaker: 'dante',
         text:
-          'Dante Valverde, do Grupo Valverde, manda uma mensagem curta: "Esse vídeo já está nos group de fundos de investimento. Investidor não quer saber se é verdade — quer saber se dá problema. Se você não controlar a narrativa em 48 horas, o mercado controla por você. E quando o mercado controla, a verba encolhe."',
+          'Dante Valverde, da Valverde Participações, manda uma mensagem curta: "Esse vídeo já está nos grupos de fundos de investimento. Investidor não quer saber se é verdade — quer saber se dá problema. Se você não controlar a narrativa em 48 horas, o mercado controla por você. E quando o mercado controla, a verba encolhe."',
         next: 'reacao',
       },
       reacao: {
         t: 'choice',
         speaker: 'bento',
         prompt:
-          'Bento, do MNR, resume: "O vídeo está rodando há três horas. Ou a gente responde agora, ou ele define a narrativa por nós. O que fazemos?"',
+          'Rafael Sampaio publica um recado nos canais do MNR: "O movimento não é braço de campanha de ninguém — nem a favor, nem contra. Mas vídeo que acusa precisa de resposta com documento. Em 24 horas eu quero saber se é mentira montada ou se é problema real da sua campanha. Quem responde com prova fala com a nossa base; quem só grita, a gente anota."',
         choices: [
           {
             id: 'esclarecer',
@@ -865,9 +865,11 @@ export const MISSIONS: MissionDef[] = [
               { t: 'attr', attr: 'reputation', amount: 3 },
               { t: 'attr', attr: 'popularity', amount: 2 },
               { t: 'faction', faction: 'imprensa', amount: 4 },
+              { t: 'faction', faction: 'movimentos', amount: 4 },
+              { t: 'relation', who: 'bento', amount: 3 },
               { t: 'flag', flag: 'videoReaction', value: 'esclarecer' },
             ],
-            summary: 'Respondeu ao vídeo com uma nota de esclarecimento imediata.',
+            summary: 'Respondeu ao vídeo com uma nota de esclarecimento imediata e documentada.',
             hint: 'Resposta rápida enquanto a reputação aguenta.',
             next: 'origem',
           },
@@ -879,6 +881,7 @@ export const MISSIONS: MissionDef[] = [
             requires: [{ t: 'attrGte', attr: 'influence', value: 25 }],
             effects: [
               { t: 'attr', attr: 'influence', amount: 3 },
+              { t: 'faction', faction: 'movimentos', amount: 3 },
               { t: 'flag', flag: 'videoReaction', value: 'investigar' },
               { t: 'event', event: 'jornalista_descobre' },
             ],
@@ -910,6 +913,8 @@ export const MISSIONS: MissionDef[] = [
               { t: 'attr', attr: 'popularity', amount: -6 },
               { t: 'attr', attr: 'reputation', amount: -3 },
               { t: 'faction', faction: 'imprensa', amount: -5 },
+              { t: 'faction', faction: 'movimentos', amount: -5 },
+              { t: 'relation', who: 'bento', amount: -4 },
               { t: 'flag', flag: 'videoReaction', value: 'ignorar' },
             ],
             summary: 'Ignorou o vídeo e manteve a agenda da campanha.',
@@ -1154,13 +1159,13 @@ export const MISSIONS: MissionDef[] = [
           },
           {
             id: 'leitura',
-            label: 'Briefing de números e descanso',
+            label: 'Revisão de números e descanso',
             description: 'Menos adrenalina, mais planilha.',
             effects: [
               { t: 'debateSkill', amount: 5 },
               { t: 'attr', attr: 'influence', amount: 2 },
             ],
-            summary: 'Preparou briefing de números e priorizou o descanso.',
+            summary: 'Preparou a revisão dos números e priorizou o descanso.',
             hint: 'Preparo moderado e custo zero: a equipe dorme, os números ficam na cabeça.',
             next: 'debate',
           },

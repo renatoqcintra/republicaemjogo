@@ -7,6 +7,7 @@ import {
   FUNDS_MIN,
 } from './constants';
 import { simulateElection } from './election/election';
+import { ACHIEVEMENTS } from './data/achievements';
 import { MISSIONS } from './data/missions';
 import { evalAll } from './conditions';
 import { runAchievementChecks } from './rules/achievements';
@@ -164,7 +165,9 @@ export function applyEffects(
       case 'achievement': {
         if (!next.achievements.includes(effect.id)) {
           next.achievements = [...next.achievements, effect.id];
-          result.notices.push(`Conquista desbloqueada: ${effect.id}`);
+          // Mostra o nome da conquista, não o identificador interno.
+          const nome = ACHIEVEMENTS.find((a) => a.id === effect.id)?.name ?? effect.id;
+          result.notices.push(`Conquista desbloqueada: ${nome}`);
         }
         break;
       }

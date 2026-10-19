@@ -40,35 +40,37 @@ export function MapScreen() {
             <span className="tag">Clique para selecionar</span>
           </div>
 
-          <table className="table mt">
-            <thead>
-              <tr>
-                <th>Região</th>
-                <th className="num">Peso</th>
-                <th className="num">Você</th>
-                <th className="num">Adversário</th>
-                <th className="num">Indecisos</th>
-                <th className="num">Investido</th>
-              </tr>
-            </thead>
-            <tbody>
-              {REGIONS.map((r) => {
-                const s = state.regions[r.id];
-                return (
-                  <tr key={r.id} onClick={() => setSelected(r.id)} style={{ cursor: 'pointer' }}>
-                    <td>
-                      <strong>{r.name}</strong> <span className="tiny muted">{r.code}</span>
-                    </td>
-                    <td className="num">{r.weight}%</td>
-                    <td className="num">{Math.round(s.player)}%</td>
-                    <td className="num">{Math.round(s.opponent)}%</td>
-                    <td className="num">{Math.round(s.undecided)}%</td>
-                    <td className="num">{s.investment}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="table-wrap mt">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Região</th>
+                  <th className="num">Peso</th>
+                  <th className="num">Você</th>
+                  <th className="num">Adversário</th>
+                  <th className="num">Indecisos</th>
+                  <th className="num">Investido</th>
+                </tr>
+              </thead>
+              <tbody>
+                {REGIONS.map((r) => {
+                  const s = state.regions[r.id];
+                  return (
+                    <tr key={r.id} onClick={() => setSelected(r.id)} style={{ cursor: 'pointer' }}>
+                      <td>
+                        <strong>{r.name}</strong> <span className="tiny muted">{r.code}</span>
+                      </td>
+                      <td className="num">{r.weight}%</td>
+                      <td className="num">{Math.round(s.player)}%</td>
+                      <td className="num">{Math.round(s.opponent)}%</td>
+                      <td className="num">{Math.round(s.undecided)}%</td>
+                      <td className="num">{s.investment}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div>

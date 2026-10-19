@@ -143,7 +143,7 @@ export const CHARACTERS: CharacterDef[] = [
     bio:
       'Rafael Sampaio transformou uma audiência digital em uma organização política revolucionária de terceira via: núcleos regionais, militantes ativos e agenda própria. O MNR não quer reformar o Congresso nem sentar na mesa do establishment — quer substituir o jogo, cobrando de quem se candidata e recusando apoio a Fábio Barreto ou Leandro Lacerda por princípio. Não confia em partido, não pede licença e não se vende: o preço do MNR é a pauta, e a pauta é do movimento.',
     personality:
-      'Irnico, combativo e revolucionário de terceira via: fala em derrubar a república de sempre, não em integrá-la. Fiél à autonomia do movimento — pode mudar de posição sobre uma proposta, mas resiste a ser tratado como subordinado de candidato algum.',
+      'Irônico, combativo e revolucionário de terceira via: fala em derrubar a república de sempre, não em integrá-la. Fiel à autonomia do movimento — pode mudar de posição sobre uma proposta, mas resiste a ser tratado como subordinado de candidato algum.',
     interests: [
       'Terceira via',
       'Agenda de costumes e segurança',
@@ -212,7 +212,7 @@ export const CHARACTERS: CharacterDef[] = [
     bio:
       'Dirigente partidário há vinte anos, sabedor de que partido não sobrevive ao próximo presidente — apenas ao próximo acordo. Faz alianças como quem joga xadrez: sempre três lances à frente, sempre com um café na mão. Apoia Fábio Barreto quando a matemática fecha e guarda, no bolso, um plano B para a legenda.',
     personality: 'Pragmático, bem-humorado sem querer e incapaz de prometer algo que não possa cobrar.',
-    interests: ['Sobrevivência da legenda', 'Cadeiras no congresso', 'Agenda do dia seguinte'],
+    interests: ['Sobrevivência da legenda', 'Cadeiras no Congresso', 'Agenda do dia seguinte'],
     secret:
       'Tem um dossiê interno sobre a viabilidade real da candidatura de Fábio — e um prazo para usá-lo.',
     baseRelation: 45,
@@ -430,7 +430,7 @@ export const CHARACTERS: CharacterDef[] = [
     role: 'Empresário do setor financeiro',
     faction: 'Valverde Participações e Mídias',
     bio:
-      'Banco de investimento, fundo de mídia e um agenda de contatos que atravessa indústria, produção audiovisual e política sem que uma área saiba direito o que a outra financia. Aparece quando há projeto bom — e some quando há escândalo ruim, sempre a tempo de não ser fotografado.',
+      'Banco de investimento, fundo de mídia e uma agenda de contatos que atravessa indústria, produção audiovisual e política sem que uma área saiba direito o que a outra financia. Aparece quando há projeto bom — e some quando há escândalo ruim, sempre a tempo de não ser fotografado.',
     personality:
       'Cortês, paciente e impossível de impressionar com discurso. Negocia em camadas: primeiro o projeto, depois os juros, depois a influência.',
     interests: ['Projetos com retorno mensurável', 'Acesso a decisores', 'Silêncio contratual'],

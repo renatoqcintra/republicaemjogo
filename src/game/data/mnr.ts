@@ -14,11 +14,23 @@ import type { CampaignState } from '../types';
  * - ausência da flag  → independente (nenhum apoio a nenhum candidato);
  * - 'dialogo'         → conversa acontece, sem compromisso eleitoral;
  * - 'acordo'          → acordo tático de pautas pontuais, sem apoio eleitoral;
- * - 'apoio'           → apoio eleitoral público declarado (exceção raríssima);
+ * - 'apoio'           → apoio eleitoral público declarado a Fábio (raríssimo);
+ * - 'apoio_leandro'   → apoio eleitoral público declarado a Leandro Lacerda;
  * - 'alianca'         → cooperação política ampla, com cláusulas (raríssima);
  * - 'distante'        → rompimento/afastamento momentâneo.
+ *
+ * Nenhum desses estágios nasce de relação pessoal: 'apoio', 'apoio_leandro' e
+ * 'alianca' só saem de decisões explícitas do jogador em eventos do arco do
+ * MNR — relação pessoal (relations.bento) pode habilitar a porta, nunca
+ * declarar apoio sozinha.
  */
-export type MnrApoio = 'dialogo' | 'acordo' | 'apoio' | 'alianca' | 'distante';
+export type MnrApoio =
+  | 'dialogo'
+  | 'acordo'
+  | 'apoio'
+  | 'apoio_leandro'
+  | 'alianca'
+  | 'distante';
 
 /** Estágio organizacional dos núcleos (capacidade de mobilização). */
 export type MnrEstrutura = 'incipiente' | 'organizada' | 'nacional';
@@ -36,11 +48,13 @@ export function mnrPosition(flags: Flags): string {
     case 'acordo':
       return 'Acordo programático tático sobre pautas pontuais — sem apoio eleitoral';
     case 'apoio':
-      return 'Apoio público declarado — exceção votada pela direção do MNR';
+      return 'Apoio público declarado a Fábio Barreto — exceção votada pela direção do MNR';
+    case 'apoio_leandro':
+      return 'Apoio público declarado a Leandro Lacerda — o MNR rompeu a aproximação com a campanha';
     case 'alianca':
       return 'Aliança política formal com a campanha (sem filiação partidária)';
     case 'distante':
-      return 'Distanciado da campanha';
+      return 'Distanciado da campanha — sem compromisso com nenhum candidato';
     default:
       return 'Independente — terceira via de direita, sem apoio a nenhum candidato';
   }

@@ -111,52 +111,54 @@ export default function App() {
     <div className="app" data-motion={motion} data-contrast={contrast}>
       {showTopbar && (
         <header className="topbar">
-          <div className="brand">
-            {GAME_TITLE}
-            <small>Estratégia política</small>
+          <div className="topbar-main">
+            <div className="brand">
+              {GAME_TITLE}
+              <small>Estratégia política</small>
+            </div>
+
+            <div className="topbar-actions">
+              <button className="nav-btn" onClick={() => setView('config')} aria-label="Configurações">
+                ⚙
+              </button>
+              <button className="nav-btn" onClick={() => setView('menu')}>
+                Menu
+              </button>
+            </div>
           </div>
 
-          <nav className="nav" aria-label="Navegação principal">
-            {NAV.map((item) => (
-              <button
-                key={item.id}
-                className="nav-btn"
-                aria-current={view === item.id ? 'page' : undefined}
-                onClick={() => {
-                  playSound('click');
-                  setView(item.id);
-                }}
-              >
-                {item.label}
-              </button>
-            ))}
-          </nav>
-
-          <div className="topbar-spacer" />
-
-          {state && (
-            <div className="row" style={{ gap: 6 }}>
-              <span className="topbar-chip">
-                Dia <strong>{state.day}/84</strong>
-              </span>
-              <span className="topbar-chip">
-                Caixa <strong>{formatMoney(state.funds)}</strong>
-              </span>
-              {state.electionResult && (
+          <div className="topbar-strip">
+            {state && (
+              <div className="topbar-chips">
                 <span className="topbar-chip">
-                  Apuração <strong>{state.electionResult.playerPct.toFixed(1)}%</strong>
+                  Dia <strong>{state.day}/84</strong>
                 </span>
-              )}
-            </div>
-          )}
+                <span className="topbar-chip">
+                  Caixa <strong>{formatMoney(state.funds)}</strong>
+                </span>
+                {state.electionResult && (
+                  <span className="topbar-chip">
+                    Apuração <strong>{state.electionResult.playerPct.toFixed(1)}%</strong>
+                  </span>
+                )}
+              </div>
+            )}
 
-          <div className="row" style={{ gap: 4 }}>
-            <button className="nav-btn" onClick={() => setView('config')} aria-label="Configurações">
-              ⚙
-            </button>
-            <button className="nav-btn" onClick={() => setView('menu')}>
-              Menu
-            </button>
+            <nav className="nav" aria-label="Navegação principal">
+              {NAV.map((item) => (
+                <button
+                  key={item.id}
+                  className="nav-btn"
+                  aria-current={view === item.id ? 'page' : undefined}
+                  onClick={() => {
+                    playSound('click');
+                    setView(item.id);
+                  }}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
           </div>
         </header>
       )}

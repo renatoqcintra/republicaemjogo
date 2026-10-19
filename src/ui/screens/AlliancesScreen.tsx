@@ -1,5 +1,6 @@
 import { useCampaign } from '@/game/state/campaignStore';
 import { CHARACTERS } from '@/game/data/characters';
+import { mnrOrganization, mnrPosition } from '@/game/data/mnr';
 import { FACTION_LABELS } from './helpers';
 import { Meter } from '../components/Meter';
 import { formatMoney } from '@/game/rules/numbers';
@@ -30,7 +31,11 @@ export function AlliancesScreen() {
               label={FACTION_LABELS[faction] ?? faction}
               value={value}
               variant={value >= 60 ? 'green' : value >= 40 ? 'gold' : 'red'}
-              hint="Apoio da facção à sua candidatura (0–100)."
+              hint={
+                faction === 'movimentos'
+                  ? 'Disposição dos movimentos sociais à sua campanha (0–100). Organizações independentes como o MNR decidem por conta própria — a posição oficial do MNR está no cartão abaixo.'
+                  : 'Apoio da facção à sua candidatura (0–100).'
+              }
             />
           ))}
           <p className="tiny muted mt">
@@ -60,7 +65,37 @@ export function AlliancesScreen() {
               );
             })}
           </ul>
+          <p className="tiny muted mt">
+            Relação pessoal mede histórico e afeto entre pessoas — não é apoio eleitoral nem aliança
+            política.
+          </p>
         </div>
+      </div>
+
+      <div className="card">
+        <h3>Movimento Nacional de Renovação (MNR)</h3>
+        <ul className="list">
+          <li>
+            <span className="muted">Posição do MNR</span>
+            <strong>{mnrPosition(state.flags)}</strong>
+          </li>
+          <li>
+            <span className="muted">Organização do movimento</span>
+            <strong>{mnrOrganization(state.flags)}</strong>
+          </li>
+          <li>
+            <span className="muted">Relação pessoal com Rafael Sampaio</span>
+            <strong>
+              {(state.relations['bento'] ?? 0) > 0 ? '+' : ''}
+              {state.relations['bento'] ?? 0}
+            </strong>
+          </li>
+        </ul>
+        <p className="tiny muted mt">
+          O MNR começa a campanha independente, sem apoio a nenhum candidato. Conversa, acordo de
+          pauta ou boa relação pessoal não viram apoio eleitoral: só uma decisão pública do movimento
+          muda essa posição.
+        </p>
       </div>
 
       <div className="card">

@@ -69,6 +69,18 @@ export function simulateElection(state: CampaignState): ElectionResult {
   const debateWon = state.flags['debateWon'] === true;
   const scandalPenalty = trust < 35 ? (35 - trust) * 0.12 : 0;
 
+  // Posição pública do MNR (movimento independente): apenas declarações
+  // públicas movem voto — diálogo e acordo de pauta, não.
+  const mnrFlag = state.flags['mnrApoio'];
+  const mnrDelta =
+    mnrFlag === 'alianca'
+      ? 1.4
+      : mnrFlag === 'apoio'
+        ? 0.9
+        : mnrFlag === 'apoio_leandro'
+          ? -1.1
+          : 0;
+
   // Penalidade por missões não concluídas: cada missão pendente custa votos.
   const ALL_MISSIONS = ['m1', 'm2', 'm3', 'm4', 'm5'] as const;
   const incompleteMissions = ALL_MISSIONS.filter(
@@ -118,6 +130,8 @@ export function simulateElection(state: CampaignState): ElectionResult {
 
     if (scandalPenalty > 0) push('Crise institucional em curso', -scandalPenalty);
     if (trust >= 60) push('Confiança institucional elevada', (trust - 60) * 0.05);
+    if (mnrDelta > 0) push('Apoio público do MNR à sua candidatura', mnrDelta);
+    else if (mnrDelta < 0) push('MNR declarou apoio ao adversário', mnrDelta);
     if (missionPenalty > 0) push('Missões da campanha não concluídas', -missionPenalty);
 
     const volatilityNoise = (rng() - 0.5) * 2 * def.volatility * 2.2;

@@ -59,6 +59,12 @@ body {
   font-size: 16px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  /* Quebra palavras longos apenas quando necessário (evita overflow em 320px). */
+  overflow-wrap: break-word;
+  /* Rede de segurança: nenhum elemento deve criar rolagem horizontal da
+     página (tabelas densas rolam dentro de .table-wrap). */
+  overflow-x: clip;
 }
 
 h1,
@@ -69,6 +75,8 @@ h4 {
   font-weight: 600;
   letter-spacing: 0.01em;
   margin: 0 0 0.4em;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 
 h1 { font-size: 2rem; }
@@ -92,24 +100,67 @@ button {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  /* Rede de segurança contra overflow horizontal (não cria contexto de
+     rolagem, então o topbar sticky continua funcionando). */
+  overflow-x: clip;
 }
 
 /* ---------- barra superior ---------- */
+/* Topbar em duas faixas no DOM: .topbar-main (marca + ações) e
+   .topbar-strip (chips + navegação). No desktop largo ambas se dissolvem
+   (display: contents) numa única linha via grid-areas; abaixo de 1400px a
+   topbar vira coluna e as faixas aparecem, com a navegação em rolagem
+   horizontal suave em telas estreitas (nenhuma aba é escondida). */
 
 .topbar {
   position: sticky;
   top: 0;
   z-index: 30;
-  display: flex;
+  display: grid;
+  /* Colunas dimensionadas pelo conteúdo; o espaço livre fica entre a marca
+     e os chips (margin-left: auto), como no layout original. */
+  grid-template-columns: auto auto auto auto;
+  grid-template-areas: 'brand nav chips actions';
+  justify-content: start;
   align-items: center;
-  gap: 14px;
+  column-gap: 14px;
   padding: 8px 18px;
+  padding-top: max(8px, env(safe-area-inset-top));
+  padding-left: max(18px, env(safe-area-inset-left));
+  padding-right: max(18px, env(safe-area-inset-right));
   background: linear-gradient(180deg, rgba(12, 15, 14, 0.97), rgba(12, 15, 14, 0.9));
   border-bottom: 1px solid var(--border-soft);
   backdrop-filter: blur(6px);
   min-height: var(--topbar-h);
-  flex-wrap: wrap;
 }
+
+.topbar-main,
+.topbar-strip {
+  display: contents;
+}
+
+.topbar-main > .brand { grid-area: brand; }
+
+.topbar-strip > .topbar-chips {
+  grid-area: chips;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-left: auto;
+}
+
+.topbar-strip > .nav { grid-area: nav; min-width: 0; flex-wrap: nowrap; }
+
+.topbar-main > .topbar-actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Faixas visíveis quando a linha única não cabe mais. (As media queries da
+   topbar estão após as regras base, para que a cascata funcione.) */
 
 .brand {
   font-family: var(--font-display);
@@ -146,8 +197,6 @@ button {
   font-weight: 600;
 }
 
-.topbar-spacer { flex: 1; }
-
 /* ---------- navegação ---------- */
 
 .nav {
@@ -178,6 +227,91 @@ button {
   background: rgba(200, 162, 75, 0.08);
 }
 
+/* Topbar em faixas: abaixo de 1400px a linha única não cabe mais (8 abas),
+   então a topbar vira coluna com duas faixas — (marca + ações) e
+   (chips + nav). A navegação nunca quebra em duas linhas: rola
+   horizontalmente, com as bordas esmaecendo como indicador sutil. Nenhuma
+   aba é escondida. */
+@media (max-width: 1399px) {
+  .topbar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .topbar-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .topbar-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .topbar-strip > .topbar-chips { margin-left: 0; }
+
+  .topbar-strip > .nav {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Indicador sutil: as bordas esmaecem quando há mais conteúdo. */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+  }
+
+  .topbar-strip > .nav::-webkit-scrollbar { display: none; }
+
+  .nav-btn { white-space: nowrap; flex: 0 0 auto; }
+}
+
+/* Celular: chips compactos na própria linha; navegação em rolagem de
+   largura total com alvo tocável confortável. */
+@media (max-width: 767px) {
+  .topbar {
+    gap: 6px;
+    padding: 6px 12px;
+    padding-top: max(6px, env(safe-area-inset-top));
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+
+  .topbar-strip > .topbar-chips {
+    flex: 1 1 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 1px;
+  }
+
+  .topbar-strip > .topbar-chips::-webkit-scrollbar { display: none; }
+
+  .topbar-strip > .nav {
+    flex: 1 1 100%;
+    padding: 2px 0;
+  }
+
+  .topbar-chip { padding: 3px 9px; font-size: 0.74rem; }
+
+  .nav-btn {
+    padding: 9px 12px;
+    font-size: 0.88rem;
+  }
+
+  .brand { font-size: 0.95rem; }
+  .brand small { font-size: 0.56rem; letter-spacing: 0.22em; }
+}
+
 /* ---------- layout principal ---------- */
 
 .main {
@@ -185,6 +319,8 @@ button {
   width: min(1240px, 100%);
   margin: 0 auto;
   padding: 24px 20px 90px;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
 }
 
 .screen {
@@ -222,6 +358,7 @@ button {
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
 .card-title h3 { margin: 0; }
@@ -243,20 +380,34 @@ button {
   gap: 16px;
 }
 
+/* Itens de grid precisam de min-width: 0 para permitir que textos/tabelas
+   longos quebrem em vez de estourar a coluna. */
+.grid > * { min-width: 0; }
+
 .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .grid-map { grid-template-columns: 1.2fr 0.8fr; }
 .grid-panel { grid-template-columns: 2fr 1fr; }
 
-@media (max-width: 980px) {
+/* Tablet retrato/aperto: 2 colunas onde ainda cabe. */
+@media (max-width: 1024px) {
   .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .grid-map, .grid-panel, .grid-2 { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 640px) {
-  .grid-3 { grid-template-columns: 1fr; }
-  .main { padding: 16px 12px 110px; }
+/* Colunas laterais (mapa/painel) empilham abaixo do original 980px. */
+@media (max-width: 980px) {
+  .grid-map, .grid-panel { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Celular: tudo em uma coluna. */
+@media (max-width: 700px) {
+  .grid { gap: 12px; }
+  .grid-2, .grid-3 { grid-template-columns: minmax(0, 1fr); }
+  .main { padding: 16px 12px 56px; padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
   h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.32rem; }
+  .card { padding: 14px; }
+  .card + .card { margin-top: 12px; }
 }
 
 /* ---------- medidores ---------- */
@@ -355,6 +506,13 @@ button {
   margin-top: 14px;
 }
 
+/* Alvos de toque confortáveis no celular (~44px). */
+@media (max-width: 700px) {
+  .btn { padding: 12px 16px; min-height: 44px; }
+  .btn-row { gap: 8px; }
+  .btn-row .btn { flex: 1 1 auto; }
+}
+
 /* ---------- escolhas ---------- */
 
 .choice-list {
@@ -373,6 +531,7 @@ button {
   color: var(--text);
   cursor: pointer;
   transition: border-color 0.18s ease, transform 0.12s ease, background 0.18s ease;
+  overflow-wrap: break-word;
 }
 
 .choice:hover:not(:disabled) {
@@ -460,6 +619,7 @@ button {
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: 16px 18px;
   font-size: 1.02rem;
+  min-width: 0;
 }
 
 .speaker-label {
@@ -470,8 +630,10 @@ button {
   margin-bottom: 6px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .dialogue { flex-direction: column; gap: 10px; }
+  .dialogue .portrait { align-self: center; }
+  .dialogue-bubble { font-size: 0.96rem; padding: 13px 14px; width: 100%; }
 }
 
 /* ---------- mapa ---------- */
@@ -534,15 +696,29 @@ button {
   gap: 12px;
   align-items: baseline;
   font-size: 0.9rem;
+  flex-wrap: wrap;
 }
 
+.list li > * { min-width: 0; }
+
 .list li:last-child { border-bottom: none; }
+
+/* Tabelas densas rolam horizontalmente dentro do próprio cartão em telas
+   estreitas (nunca empurram a página para o lado). */
+.table-wrap {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
 
 .table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.86rem;
 }
+
+.table-wrap .table { min-width: 460px; }
 
 .table th {
   text-align: left;
@@ -588,11 +764,13 @@ button {
   position: fixed;
   right: 18px;
   bottom: 18px;
+  bottom: max(18px, calc(12px + env(safe-area-inset-bottom)));
   display: flex;
   flex-direction: column;
   gap: 8px;
   z-index: 60;
   max-width: min(420px, calc(100vw - 36px));
+  pointer-events: none;
 }
 
 .notice {
@@ -603,6 +781,7 @@ button {
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
   box-shadow: var(--shadow);
+  overflow-wrap: break-word;
 }
 
 .error-banner {
@@ -616,6 +795,7 @@ button {
   justify-content: space-between;
   gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 /* ---------- modal ---------- */
@@ -629,6 +809,7 @@ button {
   justify-content: center;
   z-index: 80;
   padding: 20px;
+  padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
   animation: fade-in 0.2s ease both;
 }
 
@@ -636,11 +817,20 @@ button {
 
 .modal {
   width: min(560px, 100%);
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: linear-gradient(180deg, var(--surface-2), var(--surface));
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 22px;
   box-shadow: var(--shadow);
+}
+
+@media (max-width: 700px) {
+  .modal-backdrop { padding: 12px; padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+  .modal { padding: 16px; max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); }
 }
 
 /* ---------- menu principal ---------- */
@@ -651,16 +841,20 @@ button {
   align-items: center;
   text-align: center;
   padding: 8vh 16px 40px;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
 }
 
 .hero h1 {
-  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-size: clamp(1.7rem, 6vw, 3.6rem);
   letter-spacing: 0.04em;
   background: linear-gradient(180deg, #f4e6c0, var(--gold));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   margin-bottom: 4px;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .hero .tagline {
@@ -678,6 +872,13 @@ button {
 }
 
 .hero-menu .btn { width: 100%; padding: 13px 18px; font-size: 1rem; }
+
+@media (max-width: 700px) {
+  .hero { padding: 5vh 14px 28px; }
+  .hero .tagline { letter-spacing: 0.22em; margin-bottom: 24px; }
+  .hero-menu .btn { padding: 14px 18px; }
+  .legal-note { margin-top: 28px; }
+}
 
 .legal-note {
   margin-top: 40px;
@@ -701,6 +902,8 @@ button {
 }
 
 .objective:last-child { border-bottom: none; }
+
+.objective .obj-text { min-width: 0; }
 
 .objective .mark {
   flex: 0 0 auto;
@@ -760,6 +963,9 @@ button {
   padding-left: 10px;
   font-size: 0.78rem;
   font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .bar-compare .o {
@@ -770,6 +976,9 @@ button {
   padding-right: 10px;
   font-size: 0.78rem;
   font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 /* ---------- rodapé ---------- */
@@ -777,15 +986,23 @@ button {
 .footer {
   border-top: 1px solid var(--border-soft);
   padding: 18px 20px 30px;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+  padding-bottom: max(30px, calc(14px + env(safe-area-inset-bottom)));
   text-align: center;
   color: var(--muted);
   font-size: 0.74rem;
+}
+
+@media (max-width: 700px) {
+  .footer { padding: 12px 14px; padding-bottom: max(16px, calc(10px + env(safe-area-inset-bottom))); font-size: 0.7rem; }
 }
 
 /* ---------- utilidades ---------- */
 
 .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .row-between { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.row > *, .row-between > * { min-width: 0; }
 .stack > * + * { margin-top: 10px; }
 .mt { margin-top: 16px; }
 .mb { margin-bottom: 16px; }
@@ -806,6 +1023,7 @@ button {
   border: 1px solid var(--border);
   border-radius: 999px;
   overflow: hidden;
+  max-width: 100%;
 }
 
 .pill-group button {
@@ -822,6 +1040,27 @@ button {
   color: var(--gold-soft);
 }
 
+/* Em telas estreitas os filtros rolam horizontalmente em vez de vazar. */
+@media (max-width: 700px) {
+  .pill-group {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: 100%;
+  }
+
+  .pill-group::-webkit-scrollbar { display: none; }
+
+  .pill-group button {
+    flex: 0 0 auto;
+    min-height: 42px;
+    white-space: nowrap;
+  }
+}
+
 .log-entry {
   padding: 10px 12px;
   border-left: 3px solid var(--border);
@@ -829,6 +1068,7 @@ button {
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: 0.87rem;
   margin-bottom: 8px;
+  overflow-wrap: break-word;
 }
 
 .log-entry.good { border-left-color: var(--green-3); }

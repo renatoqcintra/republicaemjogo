@@ -311,6 +311,8 @@ export const useCampaign = create<CampaignStore>((set, get) => {
       if (!state) return;
       // Rede de segurança: o desfecho judicial resolve antes do final,
       // mesmo que a campanha tenha pulado o avanço de dias que o liberaria.
+      // O estado resolvido é a base de tudo — senão a flag fathersFate e o
+      // registro no histórico se perderiam entre o aviso e o resultado.
       const judged = resolveJudicialFate(state);
       if (judged.notice) pushNotices([judged.notice]);
       const result = simulateElection(judged.state);
@@ -320,8 +322,8 @@ export const useCampaign = create<CampaignStore>((set, get) => {
       };
       if (result.playerPct >= 50) flags['nationalPlayerPct'] = result.playerPct;
       const flagged: CampaignState = {
-        ...state,
-        flags: { ...state.flags, ...flags } as CampaignState['flags'],
+        ...judged.state,
+        flags: { ...judged.state.flags, ...flags } as CampaignState['flags'],
       };
       const ending = resolveEnding(flagged);
       const ended: CampaignState = {

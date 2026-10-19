@@ -4,6 +4,7 @@ import { character } from '@/game/data/characters';
 import { EVENTS, EVENT_MAP } from '@/game/data/events';
 import { mnrOrganization, mnrPosition } from '@/game/data/mnr';
 import { MISSION_MAP } from '@/game/data/missions';
+import { simulateElection } from '@/game/election/election';
 import { queueEvent, resolveEvent, rollDailyEvents } from '@/game/events/eventSystem';
 import { createCampaignState, INITIAL_RELATIONS } from '@/game/state/initialState';
 import type { CampaignState, Effect, EventId, MissionId } from '@/game/types';
@@ -90,6 +91,7 @@ describe('Rafael Sampaio — ficha do líder do MNR', () => {
       mnrPosition({ mnrApoio: 'dialogo' }),
       mnrPosition({ mnrApoio: 'acordo' }),
       mnrPosition({ mnrApoio: 'apoio' }),
+      mnrPosition({ mnrApoio: 'apoio_leandro' }),
       mnrPosition({ mnrApoio: 'alianca' }),
       mnrPosition({ mnrApoio: 'distante' }),
     ];
@@ -99,6 +101,8 @@ describe('Rafael Sampaio — ficha do líder do MNR', () => {
     expect(mnrPosition({ mnrApoio: 'dialogo' })).toContain('sem apoio eleitoral');
     expect(mnrPosition({ mnrApoio: 'acordo' })).toContain('sem apoio eleitoral');
     expect(mnrPosition({ mnrApoio: 'apoio' })).toContain('Apoio público');
+    expect(mnrPosition({ mnrApoio: 'apoio_leandro' })).toContain('Leandro Lacerda');
+    expect(mnrPosition({ mnrApoio: 'apoio_leandro' })).toContain('Apoio público');
     expect(mnrPosition({ mnrApoio: 'alianca' })).toContain('Aliança');
     // A ficha na UI reflete a posição da flag.
     expect(mnrPosition({ mnrApoio: 'acordo' })).toContain('Acordo programático');
@@ -123,6 +127,11 @@ describe('MNR na campanha — regra de ouro e encadeamento', () => {
             e.t === 'flag' && e.flag === 'mnrApoio' && (e.value === 'apoio' || e.value === 'alianca'),
         );
         if (declares) expect(ev.id, `${ev.id}/${choice.id}`).toBe('mnr_definicao');
+        // Apoio a Leandro só sai de uma escolha explícita na crise de autonomia.
+        const declaresLeandro = choice.effects.some(
+          (e) => e.t === 'flag' && e.flag === 'mnrApoio' && e.value === 'apoio_leandro',
+        );
+        if (declaresLeandro) expect(ev.id, `${ev.id}/${choice.id}`).toBe('mnr_crise_autonomia');
       }
     }
     const def = EVENT_MAP['mnr_definicao'];
@@ -227,6 +236,42 @@ describe('MNR na campanha — regra de ouro e encadeamento', () => {
     expect(defesa.relations.bento).toBeGreaterThan(dialogoState.relations.bento);
     expect(defesa.relations.aurelio).toBeLessThan(dialogoState.relations.aurelio);
   });
+
+  it('apoio a Leandro é decisão explícita do jogador, condicionada e com custo na apuração', () => {
+    const ceder = EVENT_MAP['mnr_crise_autonomia'].choices.find((c) => c.id === 'ceder');
+    expect(ceder).toBeDefined();
+    // A saída para Leandro só existe enquanto a campanha não tem pacto de pauta.
+    expect(evalAll(ceder!.requires, stateAt(34))).toBe(true); // independente
+    expect(evalAll(ceder!.requires, withFlags(34, { mnrApoio: 'distante' }))).toBe(true);
+    expect(evalAll(ceder!.requires, withFlags(34, { mnrApoio: 'dialogo' }))).toBe(true);
+    expect(evalAll(ceder!.requires, withFlags(34, { mnrApoio: 'acordo' }))).toBe(false);
+    expect(evalAll(ceder!.requires, withFlags(34, { mnrApoio: 'alianca' }))).toBe(false);
+    // Nada automático: sem a escolha do jogador, a posição não muda.
+    expect(stateAt(34).flags['mnrApoio']).toBeUndefined();
+    // Escolhendo, o movimento declara apoio público a Leandro — e a campanha paga.
+    const out = resolveEvent(
+      queueEvent(stateAt(34), 'mnr_crise_autonomia'),
+      'mnr_crise_autonomia',
+      'ceder',
+    ).state;
+    expect(out.flags['mnrApoio']).toBe('apoio_leandro');
+    expect(mnrPosition(out.flags)).toContain('Leandro Lacerda');
+    expect(out.factions.movimentos).toBeLessThan(stateAt(34).factions.movimentos);
+    expect(out.relations.bento).toBeLessThan(stateAt(34).relations.bento);
+    // Relação pessoal altíssima, sozinha, não muda a posição nem abre a definição.
+    const amigao = stateAt(40, { relations: { ...stateAt(40).relations, bento: 100 } });
+    expect(amigao.flags['mnrApoio']).toBeUndefined();
+    expect(mnrPosition(amigao.flags)).toContain('sem apoio a nenhum candidato');
+    expect(evalAll(EVENT_MAP['mnr_definicao'].when, amigao)).toBe(false); // sem acordo de pauta
+    // Cooperação sem apoio eleitoral não mexe na apuração; declarações públicas, sim.
+    const base = stateAt(60);
+    const dialogo = { ...base, flags: { ...base.flags, mnrApoio: 'dialogo' } };
+    const apoioFabio = { ...base, flags: { ...base.flags, mnrApoio: 'apoio' } };
+    const apoioLeandro = { ...base, flags: { ...base.flags, mnrApoio: 'apoio_leandro' } };
+    expect(simulateElection(dialogo).playerPct).toBe(simulateElection(base).playerPct);
+    expect(simulateElection(apoioFabio).playerPct).toBeGreaterThan(simulateElection(base).playerPct);
+    expect(simulateElection(apoioLeandro).playerPct).toBeLessThan(simulateElection(base).playerPct);
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -270,9 +315,13 @@ describe('MNR — alcançabilidade em campanha normal', () => {
     expect(EVENT_MAP['rafael_mobiliza'].text).toContain('MNR');
     expect(EVENT_MAP['rafael_mobiliza'].text.toLowerCase()).not.toContain('ao vivo');
     expect(EVENT_MAP['bastidores_publicados'].text).toContain('MNR');
-    // A fala de Rafael na M4 já fala do movimento.
+    // A fala de Rafael na M4 fala do movimento — com o nome certo do líder.
     const reacao = MISSION_MAP['m4'].nodes['reacao'];
     expect(reacao.t === 'choice' && reacao.prompt).toContain('MNR');
+    expect(reacao.t === 'choice' && reacao.prompt).toContain('Rafael Sampaio');
+    expect(reacao.t === 'choice' && reacao.prompt).not.toContain('Bento');
+    // Ele cobra a resposta, mas não fala como se fosse da equipe da campanha.
+    expect(reacao.t === 'choice' && reacao.prompt).not.toContain('nós');
   });
 
   it('campanhas simuladas sempre encontram o arco completo do MNR', () => {

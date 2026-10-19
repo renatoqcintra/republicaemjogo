@@ -416,14 +416,14 @@ export const EVENTS: EventDef[] = [
       },
       {
         id: 'criticar',
-        label: 'Criticar o paraliso do país',
+        label: 'Criticar a paralisação do país',
         description: 'Agrada quem trabalha e incomoda quem organiza.',
         effects: [
           { t: 'attr', attr: 'popularity', amount: -5 },
           { t: 'faction', faction: 'mercado', amount: 8 },
           { t: 'faction', faction: 'movimentos', amount: -8 },
         ],
-        summary: 'Criticou publicamente o paraliso nacional.',
+        summary: 'Criticou publicamente a paralisação nacional.',
       },
     ],
   },
@@ -440,7 +440,7 @@ export const EVENTS: EventDef[] = [
       {
         id: 'proprio',
         label: 'Cobrir o buraco com transmissão própria',
-        description: 'Live improvisada, alcance limitado, custo controlado.',
+        description: 'Transmissão improvisada, alcance limitado, custo controlado.',
         cost: { funds: 6 },
         effects: [
           { t: 'attr', attr: 'influence', amount: 4 },
@@ -517,7 +517,7 @@ export const EVENTS: EventDef[] = [
     id: 'debate_ultimato',
     title: 'O desafio de véspera',
     text:
-      'Faltando 96 horas para a eleição, seu adversário desafiou você para um debate extra, ao vivo, sem intervalo e sem tema definido. Sua equipe estima que ele está apostando na pressão do cansaço.',
+      'Faltando poucos dias para a eleição, seu adversário desafiou você para um debate extra, ao vivo, sem intervalo e sem tema definido. Sua equipe estima que ele está apostando na pressão do cansaço.',
     portrait: 'aurelio',
     when: [{ t: 'phase', value: 'finalWeek' }, { t: 'daysGte', value: 52 }],
     priority: 90,
@@ -567,7 +567,7 @@ export const EVENTS: EventDef[] = [
     id: 'dante_proposta',
     title: 'A proposta de Dante Valverde',
     text:
-      'Dante Valverde pede café no comitê e entrega uma pasta: um fundo privado de comunicação quer bancar um hub de conteúdo da campanha — produções, edits e distribuição. Ele é direto sobre os juros: "Não compro opinião; compro qualidade de produção e contabilidade aberta a quem eu escolher." O contrato existe, está escrito, e cabe em duas páginas — a terceira é que ele prefere não divulgar.',
+      'Dante Valverde pede café no comitê e entrega uma pasta: um fundo privado de comunicação quer bancar um hub de conteúdo da campanha — produções, edições e distribuição. Ele é direto sobre os juros: "Não compro opinião; compro qualidade de produção e contabilidade aberta a quem eu escolher." O contrato existe, está escrito, e cabe em duas páginas — a terceira é que ele prefere não divulgar.',
     portrait: 'dante',
     when: [{ t: 'missionDone', mission: 'm2' }, { t: 'daysGte', value: 22 }],
     priority: 65,
@@ -700,7 +700,7 @@ export const EVENTS: EventDef[] = [
       {
         id: 'investigar',
         label: 'Autorizar a apuração cruzada dos contratos',
-        description: 'A jornalista vai aos documentos: o que vier, vem com nome e data.',
+        description: 'O jornalista vai aos documentos: o que vier, vem com nome e data.',
         cost: { funds: 4 },
         effects: [
           { t: 'attr', attr: 'reputation', amount: 3 },
@@ -744,7 +744,7 @@ export const EVENTS: EventDef[] = [
     id: 'dante_conflito',
     title: 'A página três vira manchete',
     text:
-      'Dois portais recebem, na mesma hora, o contrato que você assinou sem divulgar integralmente. Documento: o valor e o fundo, confirmados. Alegação: que a taxa da página três "compra acesso" — ninguém apresentou prova de troca. Dante Valverde, em nota curta, diz que tudo é "regular, declarado e boring". A pergunta no comitê é uma só: o que você publica até amanhã?',
+      'Dois portais recebem, na mesma hora, o contrato que você assinou sem divulgar integralmente. Documento: o valor e o fundo, confirmados. Alegação: que a taxa da página três "compra acesso" — ninguém apresentou prova de troca. Dante Valverde, em nota curta, diz que tudo é "regular, declarado e chato". A pergunta no comitê é uma só: o que você publica até amanhã?',
     portrait: 'dante',
     when: [{ t: 'flag', flag: 'danteDeal', equals: 'opaco' }, { t: 'daysGte', value: 30 }],
     priority: 80,
@@ -763,7 +763,7 @@ export const EVENTS: EventDef[] = [
           { t: 'relation', who: 'dante', amount: -20 },
           { t: 'flag', flag: 'danteDeal', value: 'regularizado' },
         ],
-        summary: 'Publicou integralmente o contrato com o fundo de Dante Valverde ao vivo.',
+        summary: 'Publicou integralmente o contrato com o fundo de Dante Valverde.',
       },
       {
         id: 'rebater',
@@ -790,7 +790,7 @@ export const EVENTS: EventDef[] = [
           { t: 'relation', who: 'dante', amount: -5 },
           { t: 'flag', flag: 'danteScandal', value: 'silencio' },
         ],
-        summary: 'Manteve silêncio jurídico diante da vazamento do contrato com Dante Valverde.',
+        summary: 'Manteve silêncio jurídico diante do vazamento do contrato com Dante Valverde.',
       },
     ],
   },
@@ -847,7 +847,7 @@ export const EVENTS: EventDef[] = [
           { t: 'relation', who: 'vera', amount: 4 },
           { t: 'flag', flag: 'tribunalPostura', value: 'reserva' },
         ],
-        summary: 'Impôs reserva absoluta sobre o desfecho do processo para a campanha.',
+        summary: 'Impôs reserva absoluta sobre o desfecho do processo na campanha.',
       },
       {
         id: 'escrita',
@@ -906,7 +906,7 @@ export const EVENTS: EventDef[] = [
           { t: 'relation', who: 'caetano', amount: 8 },
           { t: 'flag', flag: 'caetanoSupport', value: 'limitado' },
         ],
-        summary: 'Limitou o apoio de Caetano Góis a articulação sem endosso público.',
+        summary: 'Limitou o apoio de Caetano Góis à articulação sem endosso público.',
       },
       {
         id: 'recusar',
@@ -979,7 +979,7 @@ export const EVENTS: EventDef[] = [
     id: 'bastidores_publicados',
     title: 'Os contratos cruzados viram matéria de capa',
     text:
-      'William Nogueira publicou a apuração: os créditos de "Black Stallion" e de "O Homem da República" passam por fundos que se cruzam — o documento do fundo de Dante Valverde está lá, declarado; a conclusão de que "um lado comprou o outro" não. A matéria pede resposta das duas campanhas, e Rafael Sampaio anunciou que o MNR vai lê-la nos canais do movimento, integra por integra.',
+      'William Nogueira publicou a apuração: os créditos de "Black Stallion" e de "O Homem da República" passam por fundos que se cruzam — o documento do fundo de Dante Valverde está lá, declarado; a conclusão de que "um lado comprou o outro" não. A matéria pede resposta das duas campanhas, e Rafael Sampaio anunciou que o MNR vai lê-la nos canais do movimento, na íntegra.',
     portrait: 'iris',
     when: [{ t: 'flag', flag: 'productionsInvestigated' }, { t: 'daysGte', value: 40 }],
     priority: 78,
@@ -1457,7 +1457,7 @@ export const EVENTS: EventDef[] = [
           { t: 'faction', faction: 'prn', amount: -2 },
           { t: 'flag', flag: 'tiagoAscensao', value: 'conteve' },
         ],
-        summary: 'Contou publicamente a ascensão de Tiago Farias e redefiniu os papéis.',
+        summary: 'Conteve publicamente a ascensão de Tiago Farias e redefiniu os papéis.',
       },
       {
         id: 'absorveu',
@@ -1665,7 +1665,7 @@ export const EVENTS: EventDef[] = [
     id: 'silvio_oferta',
     title: 'Sílvio oferece a mídia com cláusula',
     text:
-      'Sílvio Valente compareceu sem avisar e propôs o que nenhum doador oferece até agora: um pacote de mídia do Grupo Vaz com tarifa de amigo — e, em troca, condição escrita de "tratamento respeitoso da controvérsia jurídica pendente", que traduzido significa o direito de pautar ou não o processo do seu pai. Ele é cordial o suficiente para deixar a página em branco.',
+      'Sílvio Valente compareceu sem avisar e propôs o que nenhum doador oferece até agora: um pacote de mídia do Grupo Vaz com tarifa de amigo — e, em troca, condição escrita de "tratamento respeitoso da controvérsia jurídica pendente", que, traduzido, significa o direito de pautar ou não o processo do seu pai. Ele é cordial o suficiente para deixar a página em branco.',
     portrait: 'lutero',
     when: [{ t: 'daysGte', value: 10 }],
     priority: 66,
@@ -1840,9 +1840,9 @@ export const EVENTS: EventDef[] = [
   },
   {
     id: 'rafael_mobiliza',
-    title: 'Rafael Sampaio convoca os núcleos do MNR — e você',
+    title: 'Rafael Sampaio convoca os núcleos do MNR e abre a tribuna',
     text:
-      'Rafael Sampaio convocou os núcleos regionais do MNR para um ato nacional no mesmo sábado e reservou meia hora da transmissão do movimento para ouvir candidato — "sem cortar, sem roteiro e sem bandido". Sua equipe avisa: quem vai ao ato cresce com a militância; quem falta, explica por três dias para uma base que ele organiza, mas não controla.',
+      'Rafael Sampaio convocou os núcleos regionais do MNR para um ato nacional no mesmo sábado e reservou meia hora da transmissão do movimento para ouvir candidatos — o convite foi enviado às duas campanhas, "sem cortar, sem roteiro e sem favoritismo". Sua equipe avisa: quem vai ao ato cresce com a militância; quem falta explica depois para uma base que ele organiza, mas não controla.',
     portrait: 'bento',
     when: [{ t: 'daysGte', value: 20 }],
     priority: 68,
@@ -1888,7 +1888,7 @@ export const EVENTS: EventDef[] = [
           { t: 'faction', faction: 'movimentos', amount: -5 },
           { t: 'flag', flag: 'rafaelLive', value: 'falta' },
         ],
-        summary: 'Recusou o ato do MNR de Rafael Sampaio e manteve a agenda da campanha.',
+        summary: 'Recusou o ato do MNR proposto por Rafael Sampaio e manteve a agenda da campanha.',
       },
     ],
   },
@@ -2059,7 +2059,7 @@ export const EVENTS: EventDef[] = [
       {
         id: 'adiar',
         label: 'Adiar qualquer definição para a apuração',
-        description: 'Nim nem: ninguém fica bravo hoje; todos ficam no domingo.',
+        description: 'Nem-nem: ninguém fica bravo hoje; todos ficam no domingo.',
         effects: [
           { t: 'attr', attr: 'influence', amount: 2 },
           { t: 'attr', attr: 'loyalty', amount: -5 },
@@ -2074,7 +2074,7 @@ export const EVENTS: EventDef[] = [
     id: 'equipe_abalada',
     title: 'A casa começa a tremer',
     text:
-      'Pedro Marques entra sem bater e fecha a porta: dois coordenadores regionais ameaçam sair, um deles já falou com a direção do partido, e o grupo de WhatsApp do comitê virou forum de apuração de deslealdade. "Não é crise de verba", diz ele, "é crise de sensação de vitória. Eles não acreditam que dá para ganhar — e gente que não acredita vaza."',
+      'Pedro Marques entra sem bater e fecha a porta: dois coordenadores regionais ameaçam sair, um deles já falou com a direção do partido, e o grupo de WhatsApp do comitê virou fórum de apuração de deslealdade. "Não é crise de verba", diz ele, "é crise de sensação de vitória. Eles não acreditam que dá para ganhar — e gente que não acredita vaza."',
     portrait: 'vera',
     when: [
       { t: 'daysGte', value: 38 },
@@ -2322,7 +2322,7 @@ export const EVENTS: EventDef[] = [
       {
         id: 'debatos',
         label: 'Entrar como convidado nos debates — sem bandeira da campanha',
-        description: 'Presença sem co-branding: o movimento mantém a pauta, você ganha o microfone.',
+        description: 'Presença sem marca da campanha: o movimento mantém a pauta, você ganha o microfone.',
         requires: [
           {
             t: 'any',
@@ -2546,13 +2546,41 @@ export const EVENTS: EventDef[] = [
         ],
         summary: 'Ficou neutro na tentativa de Leandro de incorporar o MNR — relação morna.',
       },
+      {
+        id: 'ceder',
+        label: 'Não contrapropor: se a direção aceitar Leandro, é decisão do MNR',
+        description:
+          'Sem contrapartida da sua campanha e com prazo em cima, a direção do movimento aceita a proposta de Leandro e declara apoio público — a terceira via escolhe um lado, e não é o seu.',
+        requires: [
+          {
+            t: 'not',
+            of: {
+              t: 'any',
+              of: [
+                { t: 'flag', flag: 'mnrApoio', equals: 'acordo' },
+                { t: 'flag', flag: 'mnrApoio', equals: 'apoio' },
+                { t: 'flag', flag: 'mnrApoio', equals: 'alianca' },
+              ],
+            },
+          },
+        ],
+        effects: [
+          { t: 'flag', flag: 'mnrApoio', value: 'apoio_leandro' },
+          { t: 'flag', flag: 'mnrCoesao', value: 'tensa' },
+          { t: 'faction', faction: 'movimentos', amount: -10 },
+          { t: 'relation', who: 'bento', amount: -5 },
+          { t: 'attr', attr: 'popularity', amount: -2 },
+        ],
+        summary:
+          'Não contrapropôs nada: a direção do MNR aceitou a proposta de Leandro e declarou apoio público ao adversário.',
+      },
     ],
   },
   {
     id: 'mnr_definicao',
     title: 'Rafael decide o que o MNR vai ser até o fim',
     text:
-      'Rafael Sampaio marcou encontro fechado com a direção do MNR. Pauta única: o movimento manter a recusa de apoio até o fim — ou, exceção votada pela direção, declarar apoio público a você ou formalizar aliança com programa e cláusulas. As bases já avisaram que vão cobrar qualquer ballotada. Ele abre dizendo: "O MNR não decide por carinho. Decide por conta."',
+      'Rafael Sampaio marcou encontro fechado com a direção do MNR. Pauta única: o movimento manter a recusa de apoio até o fim e publicar sua régua de cobrança para os dois candidatos — ou, exceção votada pela direção, declarar apoio público a você ou formalizar aliança com programa e cláusulas. As bases já avisaram que vão cobrar qualquer votação interna. Ele abre dizendo: "O MNR não decide por carinho. Decide por conta."',
     portrait: 'bento',
     when: [
       { t: 'daysGte', value: 40 },
@@ -2607,6 +2635,20 @@ export const EVENTS: EventDef[] = [
           { t: 'flag', flag: 'mnrCoesao', value: 'coesa' },
         ],
         summary: 'Aceitou que o MNR siga independente até o fim — relação preservada, sem apoio declarado.',
+      },
+      {
+        id: 'cobrar',
+        label: 'Publicar a régua do MNR: cobrança aos dois, apoio a ninguém',
+        description:
+          'O movimento divulga publicamente suas exigências programáticas para Fábio e Leandro e mantém a recusa de apoio até a apuração.',
+        effects: [
+          { t: 'attr', attr: 'influence', amount: 2 },
+          { t: 'relation', who: 'bento', amount: 4 },
+          { t: 'faction', faction: 'movimentos', amount: 5 },
+          { t: 'flag', flag: 'mnrCoesao', value: 'coesa' },
+        ],
+        summary:
+          'O MNR publicou sua régua de cobrança para os dois candidatos e seguiu sem declarar apoio a ninguém.',
       },
     ],
   },

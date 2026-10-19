@@ -13,7 +13,7 @@ import { realCost } from '@/game/engine/missionEngine';
 function costLabel(cost: ReturnType<typeof realCost>): string | null {
   const parts: string[] = [];
   if (cost.funds) parts.push(`R$ ${cost.funds} mi`);
-  if (cost.days) parts.push(`${cost.days} dia(s)`);
+  if (cost.days) parts.push(`${cost.days} ${cost.days === 1 ? 'dia' : 'dias'}`);
   return parts.length ? parts.join(' · ') : null;
 }
 

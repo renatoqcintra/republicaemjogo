@@ -1,6 +1,6 @@
 import { useCampaign } from '@/game/state/campaignStore';
 import { ENDING_MAP } from '@/game/data/endings';
-import { GAME_FICTION_NOTICE } from '@/game/constants';
+import { DIFFICULTY, GAME_FICTION_NOTICE } from '@/game/constants';
 import { playSound } from '@/game/audio/audioManager';
 import { EmptyState } from './helpers';
 
@@ -52,7 +52,7 @@ export function EndingScreen() {
         <ul className="list small">
           <li>
             <span className="muted">Dificuldade</span>
-            <strong>{state.difficulty}</strong>
+            <strong>{DIFFICULTY[state.difficulty].label}</strong>
           </li>
           <li>
             <span className="muted">Dias jogados</span>

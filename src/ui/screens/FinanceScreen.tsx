@@ -89,7 +89,7 @@ export function FinanceScreen() {
               <div className="row-between mt">
                 <span className="small">
                   <strong>{cost.funds !== undefined ? formatMoney(cost.funds) : 'sem custo'}</strong>
-                  {cost.days ? ` · ${cost.days} dia(s)` : ''}
+                  {cost.days ? ` · ${cost.days} ${cost.days === 1 ? 'dia' : 'dias'}` : ''}
                   {action.requiresRegion ? ` · alvo: ${regionDef(selectedRegion).name}` : ''}
                 </span>
                 <button
@@ -118,7 +118,7 @@ export function FinanceScreen() {
         <ConfirmDialog
           title={`Confirmar: ${pending.name}`}
           message={`Esta ação custa ${formatMoney(realCost(state, pending.cost).funds ?? 0)}${
-            pending.cost.days ? ` e ${pending.cost.days} dia(s)` : ''
+            pending.cost.days ? ` e ${pending.cost.days} ${pending.cost.days === 1 ? 'dia' : 'dias'}` : ''
           }. Confirma a execução?`}
           confirmLabel="Executar ação"
           onConfirm={() => execute(pending)}

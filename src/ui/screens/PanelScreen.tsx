@@ -35,7 +35,9 @@ export function PanelScreen() {
     (id) => state.missions[id].status !== 'done' && !state.failedMissions.includes(id),
   );
   const finishHint = pendingMissions.length > 0
-    ? `Atenção: ${pendingMissions.length} missão(ões) não concluída(s). Cada missão pendente penaliza sua apuração. Apure mesmo assim?`
+    ? `Atenção: ${pendingMissions.length} ${
+        pendingMissions.length === 1 ? 'missão não concluída' : 'missões não concluídas'
+      }. Cada missão pendente penaliza sua apuração. Apure mesmo assim?`
     : campaignOver
       ? 'A campanha chegou ao fim. Encerre a apuração para ver o resultado.'
       : m5Status === 'done'

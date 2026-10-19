@@ -26,7 +26,7 @@ export function GalleryScreen() {
                 <span
                   className={`tag ${ending.tone === 'vitoria' ? 'green' : ending.tone === 'derrota' ? 'red' : 'gold'}`}
                 >
-                  {ending.tone}
+                  {ending.tone === 'vitoria' ? 'Vitória' : ending.tone === 'derrota' ? 'Derrota' : 'Desfecho alternativo'}
                 </span>
               </div>
               {unlocked ? (

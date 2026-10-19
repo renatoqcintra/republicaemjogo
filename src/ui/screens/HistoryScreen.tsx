@@ -20,7 +20,7 @@ export function HistoryScreen() {
         <div className="card">
           <div className="card-title">
             <h3>Decisões importantes</h3>
-            <span className="tag">{decisions.length} registro(s)</span>
+            <span className="tag">{decisions.length} {decisions.length === 1 ? 'registro' : 'registros'}</span>
           </div>
           {decisions.length === 0 && (
             <EmptyState title="Nenhuma decisão registrada" message="Suas escolhas em missões e eventos aparecem aqui." />
